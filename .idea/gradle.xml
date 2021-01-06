@@ -3,8 +3,15 @@
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
+<<<<<<< HEAD
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
+=======
+        <option name="testRunner" value="PLATFORM" />
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="gradleJvm" value="1.8" />
+>>>>>>> 1df30295339ae0e1bbeec30112a2590da9bc7070
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
@@ -12,7 +19,11 @@
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
+<<<<<<< HEAD
         <option name="testRunner" value="PLATFORM" />
+=======
+        <option name="useQualifiedModuleNames" value="true" />
+>>>>>>> 1df30295339ae0e1bbeec30112a2590da9bc7070
       </GradleProjectSettings>
     </option>
   </component>

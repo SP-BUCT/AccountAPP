@@ -2,8 +2,12 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+<<<<<<< HEAD
       <module fileurl="file://$PROJECT_DIR$/AccountAPP.iml" filepath="$PROJECT_DIR$/AccountAPP.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+=======
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ASP.iml" filepath="$PROJECT_DIR$/.idea/modules/ASP.iml" />
+>>>>>>> 1df30295339ae0e1bbeec30112a2590da9bc7070
     </modules>
   </component>
 </project>

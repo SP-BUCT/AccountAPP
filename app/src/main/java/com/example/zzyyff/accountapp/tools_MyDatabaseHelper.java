@@ -1,4 +1,4 @@
-package com.example.zzyyff.accountapp;
+package com.example.zzyyff.flowerrecords;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -14,7 +14,7 @@ public class tools_MyDatabaseHelper extends SQLiteOpenHelper implements Serializ
             + "property String, "
             + "cost float, "
             + "income float, "
-            + "paymethod String, "
+            + "paymethod String, "    //现金、支付宝
             + "date String, "
             + "time String, "
             + "date_year String, "
@@ -55,6 +55,14 @@ public class tools_MyDatabaseHelper extends SQLiteOpenHelper implements Serializ
             + "city String, "
             + "wheather String)";
 
+    public static final String CREATE_CREDIT = "create table credit("
+            + "id integer primary key autoincrement, "
+            + "name String, "   //微信
+            + "type String, "   //网络支付账户
+            + "balance float, " //余额
+            + "remarks String, ";//备注
+
+
 
     private Context mContext;
 
@@ -70,6 +78,7 @@ public class tools_MyDatabaseHelper extends SQLiteOpenHelper implements Serializ
         db.execSQL(CREATE_TAG);
         db.execSQL(CREATE_WANTLIST);
         db.execSQL(CREATE_WHEATHR );
+        db.execSQL(CREATE_CREDIT );
     }
     @Override
     public void onUpgrade(SQLiteDatabase db,int oldVersion,int newVersion){
@@ -79,6 +88,7 @@ public class tools_MyDatabaseHelper extends SQLiteOpenHelper implements Serializ
         db.execSQL("drop table if exists tag");
         db.execSQL("drop table if exists wantlist");
         db.execSQL("drop table if exists wheather");
+        db.execSQL("drop table if exists credit");
         onCreate(db);
 
 
