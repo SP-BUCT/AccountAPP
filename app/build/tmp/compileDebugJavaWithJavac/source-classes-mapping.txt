@@ -327,9 +327,6 @@ com/example/zzyyff/flowerrecords/BuildConfig.java
 com/example/zzyyff/accountapp/Activity_MainActivity.java
  com.example.zzyyff.accountapp.Activity_MainActivity
  com.example.zzyyff.accountapp.Activity_MainActivity$1
- com.example.zzyyff.accountapp.Activity_MainActivity$2
- com.example.zzyyff.accountapp.Activity_MainActivity$3
- com.example.zzyyff.accountapp.Activity_MainActivity$4
  com.example.zzyyff.accountapp.Activity_MainActivity$DisplayUtil
 com/example/zzyyff/accountapp/fragment_diary.java
  com.example.zzyyff.accountapp.fragment_diary

@@ -1,16 +1,18 @@
 package com.example.zzyyff.accountapp;
 
+import com.example.zzyyff.flowerrecords.R;
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
-import com.example.zzyyff.flowerrecords.R;
 import com.github.mikephil.charting.charts.PieChart;
 import android.os.Bundle;
 import android.util.TypedValue;
@@ -34,11 +36,11 @@ public class Activity_MainActivity extends AppCompatActivity implements ViewPage
     adapter_MyFragmentPager adapter;
     ArrayList<Fragment> fragments;
     ViewPager myviewpager;
-    AlertDialog write;
-    View popWriteview;
-    LinearLayout write_cost;
-    LinearLayout write_diary;
-    ImageView button_close;
+    //    AlertDialog write;
+//    View popWriteview;
+//    LinearLayout write_cost;
+//    LinearLayout write_diary;
+//    ImageView button_close;
     tools_MyDatabaseHelper dbHelper;
     SQLiteDatabase db;
     tools_MyDatabaseHelper dbHelper2;
@@ -60,8 +62,8 @@ public class Activity_MainActivity extends AppCompatActivity implements ViewPage
         initToolbar();
         initViewpager();
         initNavigationBar();
-        initWriteDialog();
-        initClickListener();
+//        initWriteDialog();
+//        initClickListener();
 
     }
 
@@ -71,50 +73,53 @@ public class Activity_MainActivity extends AppCompatActivity implements ViewPage
         quitFullScreen();
     }
 
-    void initClickListener(){
-    write_cost.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Intent intent = new Intent(Activity_MainActivity.this,KeepAccountActivity.class);
-            intent.putExtra("addoredit","add");
-            startActivityForResult(intent,1);
-            write.dismiss();
+//    void initClickListener(){
+//    write_cost.setOnClickListener(new View.OnClickListener() {
+//        @Override
+//        public void onClick(View v) {
+//            Intent intent = new Intent(Activity_MainActivity.this,KeepAccountActivity.class);
+//            intent.putExtra("addoredit","add");
+//            startActivityForResult(intent,1);
+//            write.dismiss();
+//
+//
+//        }
+//    });
+//    write_diary.setOnClickListener(new View.OnClickListener() {
+//        @Override
+//        public void onClick(View v) {
+//            Intent intent = new Intent(Activity_MainActivity.this,Activity_diaryedit.class);
+//            intent.putExtra("addoredit","add");
+//            startActivityForResult(intent,1);
+//            write.dismiss();
+//
+//        }
+//    });
+//    button_close.setOnClickListener(new View.OnClickListener() {
+//        @Override
+//        public void onClick(View v) {
+//
+//        if(myviewpager.getCurrentItem()>=2) {
+//            bottomNavigationBar.selectTab(myviewpager.getCurrentItem() + 1);
+//        } else
+//        {
+//            bottomNavigationBar.selectTab(myviewpager.getCurrentItem());
+//        }
+//            write.dismiss();
+//        }
+//    });
+//}
+//
+//    void initWriteDialog(){
+//    write = new AlertDialog.Builder(Activity_MainActivity.this).create();
+//    popWriteview = LayoutInflater.from(Activity_MainActivity.this).inflate(R.layout.pop_layout,null);
+//    write.setView(popWriteview);
+//    write_cost = popWriteview.findViewById(R.id.write_cost);
+//    write_diary = popWriteview.findViewById(R.id.write_diary);
+//    button_close = popWriteview.findViewById(R.id.button_close);
+//    }
 
 
-        }
-    });
-    write_diary.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Intent intent = new Intent(Activity_MainActivity.this,Activity_diaryedit.class);
-            intent.putExtra("addoredit","add");
-            startActivityForResult(intent,1);
-            write.dismiss();
-
-        }
-    });
-    button_close.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-
-        if(myviewpager.getCurrentItem()>=2) {
-            bottomNavigationBar.selectTab(myviewpager.getCurrentItem() + 1);
-        } else
-        {
-            bottomNavigationBar.selectTab(myviewpager.getCurrentItem());
-        }
-            write.dismiss();
-        }
-    });
-}
-    void initWriteDialog(){
-    write = new AlertDialog.Builder(Activity_MainActivity.this).create();
-    popWriteview = LayoutInflater.from(Activity_MainActivity.this).inflate(R.layout.pop_layout,null);
-    write.setView(popWriteview);
-    write_cost = popWriteview.findViewById(R.id.write_cost);
-    write_diary = popWriteview.findViewById(R.id.write_diary);
-    button_close = popWriteview.findViewById(R.id.button_close);
-    }
     void initToolbar(){
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -125,6 +130,7 @@ public class Activity_MainActivity extends AppCompatActivity implements ViewPage
         fragments = new ArrayList<Fragment>();
         fragments.add(new fragment_list());
         fragments.add(new fragment_table());
+        fragments.add(new KeepAccountActivity());
         fragments.add(new fragment_diary());
         fragments.add(new fragment_mine());
         adapter = new adapter_MyFragmentPager(getSupportFragmentManager(),fragments);
@@ -143,7 +149,7 @@ public class Activity_MainActivity extends AppCompatActivity implements ViewPage
         bottomNavigationBar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_STATIC);
         bottomNavigationBar.addItem(new BottomNavigationItem(R.drawable.list,"明细").setActiveColorResource(typedValue.resourceId))
                 .addItem(new BottomNavigationItem(R.drawable.table,"图表").setActiveColorResource(typedValue.resourceId))
-                .addItem(new BottomNavigationItem(R.drawable.add,"记账").setActiveColorResource(typedValue.resourceId))
+                .addItem(new BottomNavigationItem(R.drawable.add,"花记").setActiveColorResource(typedValue.resourceId))
                 .addItem(new BottomNavigationItem(R.drawable.diary,"账户").setActiveColorResource(typedValue.resourceId))
                 .addItem(new BottomNavigationItem(R.drawable.mine,"我的").setActiveColorResource(typedValue.resourceId))
                 .setFirstSelectedPosition(0).initialise();
@@ -165,27 +171,27 @@ public class Activity_MainActivity extends AppCompatActivity implements ViewPage
                         //获取到Tab内的各个显示控件
                         // 获取到Tab内的文字控件
                         TextView labelView = (TextView) view.findViewById(com.ashokvarma.bottomnavigation.R.id.fixed_bottom_navigation_title);
-                            if(j!=2) {
-                                //计算文字的高度DP值并设置，setTextSize为设置文字正方形的对角线长度，所以：文字高度（总内容高度减去间距和图片高度）*根号2即为对角线长度，此处用DP值，设置该值即可。
-                                labelView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, (float) (Math.sqrt(2) * (contentLen - imgLen - space)));
-                                //获取到Tab内的图像控件
-                                ImageView iconView = (ImageView) view.findViewById(com.ashokvarma.bottomnavigation.R.id.fixed_bottom_navigation_icon);
-                                //设置图片参数，其中，MethodUtils.dip2px()：换算dp值
-                                FrameLayout.LayoutParams params = new FrameLayout.LayoutParams((int) DisplayUtil.dip2px(this, imgLen), (int) DisplayUtil.dip2px(this, imgLen));
-                                params.gravity = Gravity.CENTER;
-                                iconView.setLayoutParams(params);
-                            }else
-                            {
-                                //计算文字的高度DP值并设置，setTextSize为设置文字正方形的对角线长度，所以：文字高度（总内容高度减去间距和图片高度）*根号2即为对角线长度，此处用DP值，设置该值即可。
-                                labelView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, (float) (Math.sqrt(2) * (contentLen - centerImglen - centerSpace)));
-                                //获取到Tab内的图像控件
-                                ImageView iconView = (ImageView) view.findViewById(com.ashokvarma.bottomnavigation.R.id.fixed_bottom_navigation_icon);
-                                //设置图片参数，其中，MethodUtils.dip2px()：换算dp值
-                                FrameLayout.LayoutParams params = new FrameLayout.LayoutParams((int) DisplayUtil.dip2px(this, centerImglen), (int) DisplayUtil.dip2px(this, centerImglen));
-                                params.gravity = Gravity.CENTER;
-                                iconView.setLayoutParams(params);
+                        if(j!=2) {
+                            //计算文字的高度DP值并设置，setTextSize为设置文字正方形的对角线长度，所以：文字高度（总内容高度减去间距和图片高度）*根号2即为对角线长度，此处用DP值，设置该值即可。
+                            labelView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, (float) (Math.sqrt(2) * (contentLen - imgLen - space)));
+                            //获取到Tab内的图像控件
+                            ImageView iconView = (ImageView) view.findViewById(com.ashokvarma.bottomnavigation.R.id.fixed_bottom_navigation_icon);
+                            //设置图片参数，其中，MethodUtils.dip2px()：换算dp值
+                            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams((int) DisplayUtil.dip2px(this, imgLen), (int) DisplayUtil.dip2px(this, imgLen));
+                            params.gravity = Gravity.CENTER;
+                            iconView.setLayoutParams(params);
+                        }else
+                        {
+                            //计算文字的高度DP值并设置，setTextSize为设置文字正方形的对角线长度，所以：文字高度（总内容高度减去间距和图片高度）*根号2即为对角线长度，此处用DP值，设置该值即可。
+                            labelView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, (float) (Math.sqrt(2) * (contentLen - centerImglen - centerSpace)));
+                            //获取到Tab内的图像控件
+                            ImageView iconView = (ImageView) view.findViewById(com.ashokvarma.bottomnavigation.R.id.fixed_bottom_navigation_icon);
+                            //设置图片参数，其中，MethodUtils.dip2px()：换算dp值
+                            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams((int) DisplayUtil.dip2px(this, centerImglen), (int) DisplayUtil.dip2px(this, centerImglen));
+                            params.gravity = Gravity.CENTER;
+                            iconView.setLayoutParams(params);
 
-                            }
+                        }
 
                     }
                 } catch (IllegalAccessException e) {
@@ -221,9 +227,12 @@ public class Activity_MainActivity extends AppCompatActivity implements ViewPage
                 bottomNavigationBar.selectTab(1);
                 break;
             case 2:
-                bottomNavigationBar.selectTab(3);
+                bottomNavigationBar.selectTab(2);
                 break;
             case 3:
+                bottomNavigationBar.selectTab(3);
+                break;
+            case 4:
                 bottomNavigationBar.selectTab(4);
                 break;
         }
@@ -250,14 +259,15 @@ public class Activity_MainActivity extends AppCompatActivity implements ViewPage
                 myviewpager.setCurrentItem(1);
                 break;
             case 2:
-                write.show();
-               // propetyAnim(write);
-                break;
-            case 3:
+                //write.show();
+                // propetyAnim(write);
                 myviewpager.setCurrentItem(2);
                 break;
-            case 4:
+            case 3:
                 myviewpager.setCurrentItem(3);
+                break;
+            case 4:
+                myviewpager.setCurrentItem(4);
                 break;
         }
 
@@ -265,6 +275,7 @@ public class Activity_MainActivity extends AppCompatActivity implements ViewPage
     @Override
     public void onTabUnselected(int position) {
     }
+    // 与onTabSelected(int position)一致
     @Override
     public void onTabReselected(int position) {
         switch (position) {
@@ -279,21 +290,22 @@ public class Activity_MainActivity extends AppCompatActivity implements ViewPage
                 myviewpager.setCurrentItem(1);
                 break;
             case 2:
-                write.show();
+                //write.show();
                 // propetyAnim(write);
-                break;
-            case 3:
                 myviewpager.setCurrentItem(2);
                 break;
-            case 4:
+            case 3:
                 myviewpager.setCurrentItem(3);
+                break;
+            case 4:
+                myviewpager.setCurrentItem(4);
                 break;
         }
     }
 
 
 
-
+    //退出程序
     public boolean onKeyDown(int KeyCode, KeyEvent event)
     {
         if(KeyCode == KeyEvent.KEYCODE_BACK) {
@@ -312,25 +324,30 @@ public class Activity_MainActivity extends AppCompatActivity implements ViewPage
 
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode){
-            case 1:
-                if(resultCode == RESULT_OK){
-                    int position = data.getIntExtra("position_return",0);
-                    if(position>=2) {
-                        initViewpager();
-                        bottomNavigationBar.selectTab(position + 1);
-                    } else
-                    {
-                        initViewpager();
-                        bottomNavigationBar.selectTab(position);
-                    }
-                }
-
-        }
+    public void addBill() {
+        initViewpager();
+        bottomNavigationBar.selectTab(0);
     }
+
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        switch (requestCode){
+//            case 1:
+//                if(resultCode == RESULT_OK){
+//                    int position = data.getIntExtra("position_return",0);
+////                    if(position>=2) {
+////                        initViewpager();
+////                        bottomNavigationBar.selectTab(position + 1);
+////                    } else
+////                    {
+//                        initViewpager();
+//                        bottomNavigationBar.selectTab(position);
+//                    //}
+//                }
+//
+//        }
+//    }
 
     //展示弹出界面动画（记消费，记日记）
     /*

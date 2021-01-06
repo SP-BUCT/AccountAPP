@@ -1,6 +1,9 @@
 package com.example.zzyyff.accountapp;
 
+//import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -15,6 +18,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -32,7 +36,7 @@ import java.util.Locale;
 /**
  * 添加账单
  */
-public class KeepAccountActivity extends AppCompatActivity implements View.OnClickListener {
+public class KeepAccountActivity extends Fragment implements View.OnClickListener {
 
 
     static tools_MyDatabaseHelper dbHelper;
@@ -95,6 +99,7 @@ public class KeepAccountActivity extends AppCompatActivity implements View.OnCli
     private ImageView btnSave;
     private ImageView btnBack;
     private ImageView tagEditBtn;
+    private  View view;
 
 
     StringBuilder sB_MoneyInput = new StringBuilder();
@@ -105,17 +110,19 @@ public class KeepAccountActivity extends AppCompatActivity implements View.OnCli
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        setTheme(Activity_StyleChanged.gettheme((String) SPUtils.get(this,"theme","AppTheme")));
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_keep_account);
-        dbHelper = new tools_MyDatabaseHelper(KeepAccountActivity.this, "record.db", null, 1);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+//        setTheme(Activity_StyleChanged.gettheme((String) SPUtils.get(this,"theme","AppTheme")));
+//        super.onCreate(savedInstanceState);
+//        setContentView(R.layout.activity_keep_account);
+        view = inflater.inflate(R.layout.activity_keep_account, container, false);
+        dbHelper = new tools_MyDatabaseHelper(getActivity(), "record.db", null, 1);
         db = dbHelper.getWritableDatabase();
 
-        dbHelper_tag = new tools_MyDatabaseHelper(KeepAccountActivity.this, "tag.db", null, 1);
+        dbHelper_tag = new tools_MyDatabaseHelper(getActivity(), "tag.db", null, 1);
         db_tag = dbHelper_tag.getWritableDatabase();
 
-        sp = getSharedPreferences("mine",MODE_PRIVATE);
+        sp = getActivity().getSharedPreferences("mine", Context.MODE_PRIVATE);
+
         editor = sp.edit();
 
         initTaglist();
@@ -149,7 +156,7 @@ public class KeepAccountActivity extends AppCompatActivity implements View.OnCli
         initMenuDatas();
 
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         remarkRecyclerView.setLayoutManager(linearLayoutManager);
         keepAccountRemarkShowRvAdapter = new adapter_KeepAccountRemarkShowRv(remarkDatas);
@@ -174,20 +181,21 @@ public class KeepAccountActivity extends AppCompatActivity implements View.OnCli
                initRemarkDatas();
             }
         });
+        return view;
     }
     private void buildMenuChoose(){
 
-        LayoutInflater inflater = LayoutInflater.from(this);
+        LayoutInflater inflater = LayoutInflater.from(getActivity());
         //塞GridView至ViewPager中：
         pageSize = getResources().getInteger(R.integer.HomePageHeaderColumn) * 2;
         //一共的页数等于 总数/每页数量，并取整。
         pageCount = (int) Math.ceil(mDatas.size() * 1.0 / pageSize);
 
         dots = new ArrayList<View>();
-        View view0 = this.findViewById(R.id.dot_0);
-        View view1 = this.findViewById(R.id.dot_1);
-        View view2 = this.findViewById(R.id.dot_2);
-        View view3 = this.findViewById(R.id.dot_3);
+        View view0 = view.findViewById(R.id.dot_0);
+        View view1 = view.findViewById(R.id.dot_1);
+        View view2 = view.findViewById(R.id.dot_2);
+        View view3 = view.findViewById(R.id.dot_3);
 
         if(pageCount==4){
         }else if(pageCount == 3){
@@ -209,7 +217,7 @@ public class KeepAccountActivity extends AppCompatActivity implements View.OnCli
         for (int index = 0; index < pageCount; index++) {
             //每个页面都是inflate出一个新实例
             GridView grid = (GridView) inflater.inflate(R.layout.item_keep_account_viewpager, mViewPagerGrid, false);
-            grid.setAdapter(new adapter_KeepAccountGridView(this, mDatas, index,tvShow,ivShow));
+            grid.setAdapter(new adapter_KeepAccountGridView(getActivity(), mDatas, index,tvShow,ivShow));
             mViewPagerGridList.add(grid);
         }
 
@@ -387,7 +395,7 @@ public class KeepAccountActivity extends AppCompatActivity implements View.OnCli
         //设置当前显示的日期
         btnDate.setText("今日");
 
-        datePicker = new tools_CustomDatePicker(this, "请选择日期", new tools_CustomDatePicker.ResultHandler() {
+        datePicker = new tools_CustomDatePicker(getActivity(), "请选择日期", new tools_CustomDatePicker.ResultHandler() {
             @Override
             public void handle(String time) {
                 if(date.equals(time.split(" ")[0])){
@@ -406,7 +414,7 @@ public class KeepAccountActivity extends AppCompatActivity implements View.OnCli
         datePicker.setDayIsLoop(true);
         datePicker.setMonIsLoop(true);
 
-        timePicker = new tools_CustomDatePicker(this, "请选择时间", new tools_CustomDatePicker.ResultHandler() {
+        timePicker = new tools_CustomDatePicker(getActivity(), "请选择时间", new tools_CustomDatePicker.ResultHandler() {
             @Override
             public void handle(String time) {
                // currentTime.setText(time);
@@ -418,8 +426,8 @@ public class KeepAccountActivity extends AppCompatActivity implements View.OnCli
     private void resetData(){
 
 
-            intent = getIntent();
-            isNotifycation = false;
+        intent = getActivity().getIntent();
+        isNotifycation = false;
             if (intent.getStringExtra("addoredit").equals("edit")) {
                 tvShow.setText(intent.getStringExtra("property"));
                 adapter_tablelist.imageSwitch(intent.getStringExtra("property"), ivShow);
@@ -472,42 +480,42 @@ public class KeepAccountActivity extends AppCompatActivity implements View.OnCli
             }
     }
 
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        this.setIntent(intent);
-        isNotifycation = true;
-
-    }
+//    @Override
+//    protected void onNewIntent(Intent intent) {
+//        super.onNewIntent(intent);
+//        this.setIntent(intent);
+//        isNotifycation = true;
+//
+//    }
 
     private void findViewById(){
-        tvShow = (TextView)findViewById(R.id.tvShow);
-        ivShow = (ImageView)findViewById(R.id.ivShow);
-        mViewPagerGrid = (ViewPager) findViewById(R.id.keepAccountViewpage);
-        remarkRecyclerView = (RecyclerView)findViewById(R.id.rvRemark);
+        tvShow = (TextView)view.findViewById(R.id.tvShow);
+        ivShow = (ImageView)view.findViewById(R.id.ivShow);
+        mViewPagerGrid = (ViewPager)view.findViewById(R.id.keepAccountViewpage);
+        remarkRecyclerView = (RecyclerView)view.findViewById(R.id.rvRemark);
 
         sB_MoneyInput.append("");
-        tvIn = (TextView)findViewById(R.id.tvIn);
-        tvOut = (TextView)findViewById(R.id.tvOut);
-        moneyShow = (TextView)findViewById(R.id.moneyShow);
-        btnNum0 = (Button)findViewById(R.id.btnNum0);
-        btnNum1 = (Button)findViewById(R.id.btnNum1);
-        btnNum2 = (Button)findViewById(R.id.btnNum2);
-        btnNum3 = (Button)findViewById(R.id.btnNum3);
-        btnNum4 = (Button)findViewById(R.id.btnNum4);
-        btnNum5 = (Button)findViewById(R.id.btnNum5);
-        btnNum6 = (Button)findViewById(R.id.btnNum6);
-        btnNum7 = (Button)findViewById(R.id.btnNum7);
-        btnNum8 = (Button)findViewById(R.id.btnNum8);
-        btnNum9 = (Button)findViewById(R.id.btnNum9);
-        btnPoint = (Button)findViewById(R.id.btnPoint);
-        btnDel = (Button)findViewById(R.id.btnDel);
-        btnPayMode = (Button)findViewById(R.id.btnPayMode);
-        btnOk = (Button)findViewById(R.id.btnOK);
-        btnDate = (Button)findViewById(R.id.btnDate);
-        btnSave = (ImageView)findViewById(R.id.btnSave);
-        btnBack = (ImageView)findViewById(R.id.btnBack1);
-        tagEditBtn = (ImageView)findViewById(R.id.tag_edit);
+        tvIn = (TextView)view.findViewById(R.id.tvIn);
+        tvOut = (TextView)view.findViewById(R.id.tvOut);
+        moneyShow = (TextView)view.findViewById(R.id.moneyShow);
+        btnNum0 = (Button)view.findViewById(R.id.btnNum0);
+        btnNum1 = (Button)view.findViewById(R.id.btnNum1);
+        btnNum2 = (Button)view.findViewById(R.id.btnNum2);
+        btnNum3 = (Button)view.findViewById(R.id.btnNum3);
+        btnNum4 = (Button)view.findViewById(R.id.btnNum4);
+        btnNum5 = (Button)view.findViewById(R.id.btnNum5);
+        btnNum6 = (Button)view.findViewById(R.id.btnNum6);
+        btnNum7 = (Button)view.findViewById(R.id.btnNum7);
+        btnNum8 = (Button)view.findViewById(R.id.btnNum8);
+        btnNum9 = (Button)view.findViewById(R.id.btnNum9);
+        btnPoint = (Button)view.findViewById(R.id.btnPoint);
+        btnDel = (Button)view.findViewById(R.id.btnDel);
+        btnPayMode = (Button)view.findViewById(R.id.btnPayMode);
+        btnOk = (Button)view.findViewById(R.id.btnOK);
+        btnDate = (Button)view.findViewById(R.id.btnDate);
+        btnSave = (ImageView)view.findViewById(R.id.btnSave);
+        btnBack = (ImageView)view.findViewById(R.id.btnBack1);
+        tagEditBtn = (ImageView)view.findViewById(R.id.tag_edit);
 
     }
     @Override
@@ -602,7 +610,7 @@ public class KeepAccountActivity extends AppCompatActivity implements View.OnCli
                 payModeCount++;
                 break;
             case R.id.tag_edit:
-                Intent intent3 = new Intent(this,Activity_tagEdit.class);
+                Intent intent3 = new Intent(getActivity(),Activity_tagEdit.class);
                 intent3.putExtra("property",tvShow.getText().toString());
                 startActivity(intent3);
                 break;
@@ -672,21 +680,23 @@ public class KeepAccountActivity extends AppCompatActivity implements View.OnCli
                     bundle.putDouble("money",numberInput);
                     bundle.putString("remark",reMarkInput);
                     bundle.putString("paymethod",payModeInput);
-                    setResult(RESULT_OK,intent1);
+//                    setResult(RESULT_OK,intent1);
                     intent1.putExtras(bundle);
-                    finish();
+//                    finish();
+                    Activity_MainActivity parentActivity = (Activity_MainActivity)getActivity();
+                    parentActivity.addBill();
 
 
                 }
 
                 else
                 {
-                    Toast.makeText(this,"没有输入",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(),"没有输入",Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.btnBack1:
 
-                finish();
+                getActivity().finish();
                 break;
 
             case R.id.btnDate:
@@ -710,7 +720,7 @@ public class KeepAccountActivity extends AppCompatActivity implements View.OnCli
 
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
         if(intent.getStringExtra("addoredit").equals("edit")) {
             initRemarkDatas(intent.getStringExtra("remark"));
