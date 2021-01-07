@@ -66,8 +66,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name="com.example.zzyyff.flowerrecords.Activity_MainActivity"
-            android:screenOrientation="portrait" >
-        </activity>
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
