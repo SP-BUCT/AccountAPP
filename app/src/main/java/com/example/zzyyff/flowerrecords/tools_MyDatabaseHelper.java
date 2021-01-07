@@ -60,7 +60,8 @@ public class tools_MyDatabaseHelper extends SQLiteOpenHelper implements Serializ
             + "name String, "   //微信
             + "type String, "   //网络支付账户
             + "balance float, " //余额
-            + "remarks String) ";//备注
+            + "remarks String, "
+            + "image_path String)";//备注
 
 
 

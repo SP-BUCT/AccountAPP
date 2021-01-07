@@ -39,6 +39,8 @@ public class Activity_MainActivity extends AppCompatActivity implements ViewPage
     SQLiteDatabase db;
     tools_MyDatabaseHelper dbHelper2;
     SQLiteDatabase db2;
+    tools_MyDatabaseHelper dbHelper3;
+    SQLiteDatabase db3;
 
 
     @Override
@@ -53,6 +55,8 @@ public class Activity_MainActivity extends AppCompatActivity implements ViewPage
         db = dbHelper.getWritableDatabase();
         dbHelper2 = new tools_MyDatabaseHelper(Activity_MainActivity.this, "diary.db", null, 1);
         db2 = dbHelper2.getWritableDatabase();
+        dbHelper3 = new tools_MyDatabaseHelper(Activity_MainActivity.this, "credit.db", null, 1);
+        db3 = dbHelper3.getWritableDatabase();
         initToolbar();
         initViewpager();
         initNavigationBar();
@@ -67,51 +71,6 @@ public class Activity_MainActivity extends AppCompatActivity implements ViewPage
         quitFullScreen();
     }
 
-//    void initClickListener(){
-//    write_cost.setOnClickListener(new View.OnClickListener() {
-//        @Override
-//        public void onClick(View v) {
-//            Intent intent = new Intent(Activity_MainActivity.this,KeepAccountActivity.class);
-//            intent.putExtra("addoredit","add");
-//            startActivityForResult(intent,1);
-//            write.dismiss();
-//
-//
-//        }
-//    });
-//    write_diary.setOnClickListener(new View.OnClickListener() {
-//        @Override
-//        public void onClick(View v) {
-//            Intent intent = new Intent(Activity_MainActivity.this,Activity_diaryedit.class);
-//            intent.putExtra("addoredit","add");
-//            startActivityForResult(intent,1);
-//            write.dismiss();
-//
-//        }
-//    });
-//    button_close.setOnClickListener(new View.OnClickListener() {
-//        @Override
-//        public void onClick(View v) {
-//
-//        if(myviewpager.getCurrentItem()>=2) {
-//            bottomNavigationBar.selectTab(myviewpager.getCurrentItem() + 1);
-//        } else
-//        {
-//            bottomNavigationBar.selectTab(myviewpager.getCurrentItem());
-//        }
-//            write.dismiss();
-//        }
-//    });
-//}
-//
-//    void initWriteDialog(){
-//    write = new AlertDialog.Builder(Activity_MainActivity.this).create();
-//    popWriteview = LayoutInflater.from(Activity_MainActivity.this).inflate(R.layout.pop_layout,null);
-//    write.setView(popWriteview);
-//    write_cost = popWriteview.findViewById(R.id.write_cost);
-//    write_diary = popWriteview.findViewById(R.id.write_diary);
-//    button_close = popWriteview.findViewById(R.id.button_close);
-//    }
 
 
     void initToolbar(){
@@ -125,7 +84,7 @@ public class Activity_MainActivity extends AppCompatActivity implements ViewPage
         fragments.add(new fragment_list());
         fragments.add(new fragment_table());
         fragments.add(new fragment_keepaccount());
-        fragments.add(new fragment_diary());
+        fragments.add(new fragment_credit());
         fragments.add(new fragment_mine());
         adapter = new adapter_MyFragmentPager(getSupportFragmentManager(),fragments);
         myviewpager.setAdapter(adapter);
@@ -323,42 +282,7 @@ public class Activity_MainActivity extends AppCompatActivity implements ViewPage
         bottomNavigationBar.selectTab(0);
     }
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        switch (requestCode){
-//            case 1:
-//                if(resultCode == RESULT_OK){
-//                    int position = data.getIntExtra("position_return",0);
-////                    if(position>=2) {
-////                        initViewpager();
-////                        bottomNavigationBar.selectTab(position + 1);
-////                    } else
-////                    {
-//                        initViewpager();
-//                        bottomNavigationBar.selectTab(position);
-//                    //}
-//                }
-//
-//        }
-//    }
 
-    //展示弹出界面动画（记消费，记日记）
-    /*
-    private void propetyAnim(AlertDialog write) {
-        @SuppressLint("ObjectAnimatorBinding") ObjectAnimator animator = ObjectAnimator.ofFloat(write, "alpha", 0, 0.2f, 0.5f, 0.6f, 0.7f, 0.9f);
-        animator.setDuration(1000);
-        animator.setRepeatCount(0);
-        animator.start();
-        write.getWindow().setBackgroundDrawableResource(R.drawable.back_half);
-        WindowManager windowManager = getWindowManager();
-        Display display = windowManager.getDefaultDisplay();
-        WindowManager.LayoutParams lp = write.getWindow().getAttributes();
-        lp.width = (int)(display.getWidth()); //设置宽度
-        lp.height = (int)(display.getHeight());
-        write.getWindow().setAttributes(lp);
-    }
-    */
     private void quitFullScreen(){
         final WindowManager.LayoutParams attrs = getWindow().getAttributes();
         attrs.flags &= (~WindowManager.LayoutParams.FLAG_FULLSCREEN);

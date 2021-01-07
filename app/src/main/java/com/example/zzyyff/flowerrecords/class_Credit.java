@@ -6,6 +6,11 @@ public class class_Credit {
     String type;
     float balance;
     String remarks;
+    String image_path;
+
+    public String getImage_path() {
+        return image_path;
+    }
 
     public int getId() {
         return id;
@@ -47,11 +52,12 @@ public class class_Credit {
         this.remarks = remarks;
     }
 
-    public class_Credit(int id,String name,String type,float balance,String remarks) {
+    public class_Credit(int id, String name, String type, float balance, String image_path) {
         this.id = id;
         this.name = name;
         this.type = type;
         this.balance = balance;
-        this.remarks = remarks;
+
+        this.image_path = image_path;
     }
 }

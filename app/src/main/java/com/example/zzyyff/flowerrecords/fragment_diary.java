@@ -38,9 +38,9 @@ public class fragment_diary extends Fragment {
         if (cursor.moveToFirst()) {
             do
             {
-               diaries.add(new class_Diary(cursor.getInt(cursor.getColumnIndex("id")),
-                       cursor.getString(cursor.getColumnIndex("property")),
-                       "默认",
+                diaries.add(new class_Diary(cursor.getInt(cursor.getColumnIndex("id")),
+                        cursor.getString(cursor.getColumnIndex("property")),
+                        "默认",
                         numDayToChineseCharactersDay(cursor.getString(cursor.getColumnIndex("date_year")),"YEAR"),
                         numDayToChineseCharactersDay(cursor.getString(cursor.getColumnIndex("date_month")),"MONTH"),
                         cursor.getString(cursor.getColumnIndex("date_day")),
@@ -48,7 +48,7 @@ public class fragment_diary extends Fragment {
                         cursor.getString(cursor.getColumnIndex("image_path")),
                         cursor.getString(cursor.getColumnIndex("wheather")),
                         cursor.getString(cursor.getColumnIndex("city"))
-               ));
+                ));
             }while (cursor.moveToNext());
         }
     }

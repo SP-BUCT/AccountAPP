@@ -149,30 +149,30 @@ public class Activity_diaryedit extends AppCompatActivity {
 
         mHandler = new Handler(){
             public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case 1:
-                    city_show.setText(city);
-                    Cursor cursor = db_w.rawQuery("select * from wheather where date = ? and city = ? ",new String[]{date,city} );
-                    if(cursor.moveToFirst()){
-                        wheather = cursor.getString(cursor.getColumnIndex("wheather"));
-                        //数据库加载图片
+                switch (msg.what) {
+                    case 1:
+                        city_show.setText(city);
+                        Cursor cursor = db_w.rawQuery("select * from wheather where date = ? and city = ? ",new String[]{date,city} );
+                        if(cursor.moveToFirst()){
+                            wheather = cursor.getString(cursor.getColumnIndex("wheather"));
+                            //数据库加载图片
+                            initWheather(wheather,wheather_show);
+
+                        }else {
+                            sendRequsetWithOkHttp_wheather(city);
+                        }
+
+                        break;
+                    case 2:
                         initWheather(wheather,wheather_show);
-
-                    }else {
-                        sendRequsetWithOkHttp_wheather(city);
-                    }
-
-                    break;
-                case 2:
-                    initWheather(wheather,wheather_show);
-                    //网络加载图片
-                    values.put("date",date);
-                    values.put("city",city);
-                    values.put("wheather",wheather);
-                    db_w.insert("wheather",null,values);
-                    break;
+                        //网络加载图片
+                        values.put("date",date);
+                        values.put("city",city);
+                        values.put("wheather",wheather);
+                        db_w.insert("wheather",null,values);
+                        break;
+                }
             }
-        }
         };
 
         initClickListener();
@@ -631,7 +631,7 @@ public class Activity_diaryedit extends AppCompatActivity {
                 message.what = 1;
                 mHandler.sendMessage(message);
 
-               // sendRequsetWithOkHttp_wheather(city);
+                // sendRequsetWithOkHttp_wheather(city);
             }
         } catch (JSONException e) {
             sendRequsetWithOkHttp();
@@ -640,31 +640,31 @@ public class Activity_diaryedit extends AppCompatActivity {
     }
     private void sendRequsetWithOkHttp_wheather(final String city){
         //查天气表
-            values.put("date",date);
-            values.put("city",city);
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    OkHttpClient client = new OkHttpClient();
-                    Log.d("SSSSSS", GetNetIp());
-                    Request request = new Request.Builder()
-                            .url(Uri_wheather+city)
-                            .build();
-                    try {
-                        Response response = client.newCall(request).execute();
-                        String responseData = response.body().string();
-                        values.put("wheather",parseJSONObject_wheather(responseData));
+        values.put("date",date);
+        values.put("city",city);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                OkHttpClient client = new OkHttpClient();
+                Log.d("SSSSSS", GetNetIp());
+                Request request = new Request.Builder()
+                        .url(Uri_wheather+city)
+                        .build();
+                try {
+                    Response response = client.newCall(request).execute();
+                    String responseData = response.body().string();
+                    values.put("wheather",parseJSONObject_wheather(responseData));
 
 
 
 
 
 
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-            }).start();
+            }
+        }).start();
 
     }
     private String parseJSONObject_wheather(String jsonData){
@@ -678,12 +678,12 @@ public class Activity_diaryedit extends AppCompatActivity {
             message.what = 2;
             mHandler.sendMessage(message);
             Log.e("AAAAAAAAAAAa", wheather);
-           // Toast.makeText(this, wheather, Toast.LENGTH_SHORT).show();
+            // Toast.makeText(this, wheather, Toast.LENGTH_SHORT).show();
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
-       return wheather;
+        return wheather;
     }
     public static String GetNetIp() {
         URL infoUrl = null;
@@ -746,7 +746,7 @@ public class Activity_diaryedit extends AppCompatActivity {
                 break;
             case "阴":
                 wheather_show.setImageResource(R.drawable.yin);
-            break;
+                break;
 
         }
     }
