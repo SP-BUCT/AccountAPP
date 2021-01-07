@@ -124,7 +124,7 @@ public class Activity_MainActivity extends AppCompatActivity implements ViewPage
         fragments = new ArrayList<Fragment>();
         fragments.add(new fragment_list());
         fragments.add(new fragment_table());
-        fragments.add(new KeepAccountActivity());
+        fragments.add(new fragment_keepaccount());
         fragments.add(new fragment_diary());
         fragments.add(new fragment_mine());
         adapter = new adapter_MyFragmentPager(getSupportFragmentManager(),fragments);
@@ -143,7 +143,7 @@ public class Activity_MainActivity extends AppCompatActivity implements ViewPage
         bottomNavigationBar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_STATIC);
         bottomNavigationBar.addItem(new BottomNavigationItem(R.drawable.list,"明细").setActiveColorResource(typedValue.resourceId))
                 .addItem(new BottomNavigationItem(R.drawable.table,"图表").setActiveColorResource(typedValue.resourceId))
-                .addItem(new BottomNavigationItem(R.drawable.add,"花记").setActiveColorResource(typedValue.resourceId))
+                .addItem(new BottomNavigationItem(R.drawable.add,"记账").setActiveColorResource(typedValue.resourceId))
                 .addItem(new BottomNavigationItem(R.drawable.diary,"账户").setActiveColorResource(typedValue.resourceId))
                 .addItem(new BottomNavigationItem(R.drawable.mine,"我的").setActiveColorResource(typedValue.resourceId))
                 .setFirstSelectedPosition(0).initialise();

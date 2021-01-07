@@ -79,6 +79,7 @@ public class Activity_detail extends AppCompatActivity {
             intent.putExtra("paymethod",paymethod);
 
             startActivityForResult(intent,2);
+//            startActivity(intent);
 
         }
     });
@@ -122,22 +123,22 @@ public class Activity_detail extends AppCompatActivity {
         switch (requestCode)
         {
             case 2:
-if (resultCode == RESULT_OK) {
-    property = data.getStringExtra("property");
-    id = data.getStringExtra("id");
-    inorout = data.getStringExtra("inorout");
-    date = data.getStringExtra("date");
-    money = data.getDoubleExtra("money", 0);
-    remark = data.getStringExtra("remark");
-    paymethod = data.getStringExtra("paymethod");
-    adapter_tablelist.imageSwitch(property, imageProperty);
-    propertyText.setText(property);
-    moneyText.setText(money + "");
-    remarkText.setText(remark);
-    dateText.setText(date);
-    paymethodText.setText(paymethod);
-    break;
-}
+            if (resultCode == RESULT_OK) {
+                property = data.getStringExtra("property");
+                id = data.getStringExtra("id");
+                inorout = data.getStringExtra("inorout");
+                date = data.getStringExtra("date");
+                money = data.getDoubleExtra("money", 0);
+                remark = data.getStringExtra("remark");
+                paymethod = data.getStringExtra("paymethod");
+                adapter_tablelist.imageSwitch(property, imageProperty);
+                propertyText.setText(property);
+                moneyText.setText(money + "");
+                remarkText.setText(remark);
+                dateText.setText(date);
+                paymethodText.setText(paymethod);
+                break;
+            }
         }
 
     }
