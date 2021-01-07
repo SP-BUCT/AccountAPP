@@ -3,8 +3,7 @@ package com.example.zzyyff.flowerrecords;
 /**
  * 发现->账户
  */
-public class
-class_Diary {
+public class class_Diary {
     int id;
     String name;
     String text;
