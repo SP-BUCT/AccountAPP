@@ -93,8 +93,8 @@ public class KeepAccountActivity extends Fragment implements View.OnClickListene
     private Button btnDate;
     private Button btnPayMode;
     private Button btnOk;
-    private ImageView btnSave;
-    private ImageView btnBack;
+    //    private ImageView btnSave;
+//    private ImageView btnBack;
     private ImageView tagEditBtn;
     private  View view;
 
@@ -141,10 +141,10 @@ public class KeepAccountActivity extends Fragment implements View.OnClickListene
         btnPoint.setOnClickListener(this);
         btnDel.setOnClickListener(this);
         btnDate.setOnClickListener(this);
-        btnSave.setOnClickListener(this);
+//        btnSave.setOnClickListener(this);
         tvOut.setOnClickListener(this);
         tvIn.setOnClickListener(this);
-        btnBack.setOnClickListener(this);
+//        btnBack.setOnClickListener(this);
         tagEditBtn.setOnClickListener(this);
 
 
@@ -175,7 +175,7 @@ public class KeepAccountActivity extends Fragment implements View.OnClickListene
             public void afterTextChanged(Editable arg0) {
                 // TODO Auto-generated method stub
 
-               initRemarkDatas();
+                initRemarkDatas();
             }
         });
         return view;
@@ -245,29 +245,29 @@ public class KeepAccountActivity extends Fragment implements View.OnClickListene
     private void initRemarkDatas(){
         remarkDatas= new ArrayList<class_tagitem>();
 
-            String tag_now ;
+        String tag_now ;
 
 
 
-            Cursor cursor1 = db_tag.query("tag",null,"property=?",
-                    new String[]{tvShow.getText().toString()},null,null,"id desc");
-            if (cursor1.moveToFirst())
-            {
-                do{
-                        tag_now = cursor1.getString(cursor1.getColumnIndex("tag"));
-                        class_tagitem class_tagitem = new class_tagitem(tag_now,false);
-                        remarkDatas.add(class_tagitem);
-                }while (cursor1.moveToNext());
-                keepAccountRemarkShowRvAdapter = new adapter_KeepAccountRemarkShowRv(remarkDatas);
-                remarkRecyclerView.setAdapter(keepAccountRemarkShowRvAdapter);
-            }else {
-                //Toast.makeText(KeepAccountActivity.this,"!!",Toast.LENGTH_SHORT).show();
+        Cursor cursor1 = db_tag.query("tag",null,"property=?",
+                new String[]{tvShow.getText().toString()},null,null,"id desc");
+        if (cursor1.moveToFirst())
+        {
+            do{
+                tag_now = cursor1.getString(cursor1.getColumnIndex("tag"));
+                class_tagitem class_tagitem = new class_tagitem(tag_now,false);
+                remarkDatas.add(class_tagitem);
+            }while (cursor1.moveToNext());
+            keepAccountRemarkShowRvAdapter = new adapter_KeepAccountRemarkShowRv(remarkDatas);
+            remarkRecyclerView.setAdapter(keepAccountRemarkShowRvAdapter);
+        }else {
+            //Toast.makeText(KeepAccountActivity.this,"!!",Toast.LENGTH_SHORT).show();
 
-                keepAccountRemarkShowRvAdapter = new adapter_KeepAccountRemarkShowRv(remarkDatas);
-                remarkRecyclerView.setAdapter(keepAccountRemarkShowRvAdapter);
+            keepAccountRemarkShowRvAdapter = new adapter_KeepAccountRemarkShowRv(remarkDatas);
+            remarkRecyclerView.setAdapter(keepAccountRemarkShowRvAdapter);
 
-                //keepAccountRemarkShowRvAdapter.notifyDataSetChanged();
-            }
+            //keepAccountRemarkShowRvAdapter.notifyDataSetChanged();
+        }
 
 
     }
@@ -286,11 +286,11 @@ public class KeepAccountActivity extends Fragment implements View.OnClickListene
                 do{
                     class_tagitem class_tagitem = null;
                     tag_now = cursor2.getString(cursor2.getColumnIndex("tag"));
-                        if(tag_now.equals(tag)){
-                            class_tagitem = new class_tagitem(tag_now,true);
-                        }
-                        else {
-                            class_tagitem = new class_tagitem(tag_now,false);
+                    if(tag_now.equals(tag)){
+                        class_tagitem = new class_tagitem(tag_now,true);
+                    }
+                    else {
+                        class_tagitem = new class_tagitem(tag_now,false);
                     }
 
                     remarkDatas.add(class_tagitem);
@@ -414,7 +414,7 @@ public class KeepAccountActivity extends Fragment implements View.OnClickListene
         timePicker = new tools_CustomDatePicker(getActivity(), "请选择时间", new tools_CustomDatePicker.ResultHandler() {
             @Override
             public void handle(String time) {
-               // currentTime.setText(time);
+                // currentTime.setText(time);
             }
         }, "2017-01-01 00:00", "2037-12-31 23:59");//"2027-12-31 23:59"
         timePicker.showSpecificTime(true);
@@ -425,56 +425,56 @@ public class KeepAccountActivity extends Fragment implements View.OnClickListene
 
         intent = getActivity().getIntent();
         isNotifycation = false;
-            if (intent.getStringExtra("addoredit").equals("edit")) {
-                tvShow.setText(intent.getStringExtra("property"));
-                adapter_tablelist.imageSwitch(intent.getStringExtra("property"), ivShow);
-                String intentData = intent.getStringExtra("date").substring(0, 4) + "-" + intent.getStringExtra("date").substring(5, 7) + "-" + intent.getStringExtra("date").substring(8, 10);
-                if (!date.equals(intentData)) {
-                    btnDate.setText(intentData);
-                    btnDate.setTextSize(13);
-                } else {
-                    btnDate.setText("今日");
-                    btnDate.setTextSize(18);
-                }
+        if (intent.getStringExtra("addoredit").equals("edit")) {
+            tvShow.setText(intent.getStringExtra("property"));
+            adapter_tablelist.imageSwitch(intent.getStringExtra("property"), ivShow);
+            String intentData = intent.getStringExtra("date").substring(0, 4) + "-" + intent.getStringExtra("date").substring(5, 7) + "-" + intent.getStringExtra("date").substring(8, 10);
+            if (!date.equals(intentData)) {
+                btnDate.setText(intentData);
+                btnDate.setTextSize(13);
+            } else {
+                btnDate.setText("今日");
+                btnDate.setTextSize(18);
+            }
 
-                if (intent.getStringExtra("inorout").equals("out")) {
-                    pageOut = true;
-                    tvOut.setTextColor(this.getResources().getColor(R.color.colorSelectedText));
-                    tvIn.setTextColor(this.getResources().getColor(R.color.color_gold));
-                } else {
-                    pageOut = false;
-                    tvIn.setTextColor(this.getResources().getColor(R.color.colorSelectedText));
-                    tvOut.setTextColor(this.getResources().getColor(R.color.color_gold));
-                }
+            if (intent.getStringExtra("inorout").equals("out")) {
+                pageOut = true;
+                tvOut.setTextColor(this.getResources().getColor(R.color.colorSelectedText));
+                tvIn.setTextColor(this.getResources().getColor(R.color.color_gold));
+            } else {
+                pageOut = false;
+                tvIn.setTextColor(this.getResources().getColor(R.color.colorSelectedText));
+                tvOut.setTextColor(this.getResources().getColor(R.color.color_gold));
+            }
 
-                for (int i = 0; i < payMode.length; i++) {
-                    if (payMode[i].equals(intent.getStringExtra("paymethod"))) {
-                        payModeCount++;
-                        btnPayMode.setText(payMode[i]);
+            for (int i = 0; i < payMode.length; i++) {
+                if (payMode[i].equals(intent.getStringExtra("paymethod"))) {
+                    payModeCount++;
+                    btnPayMode.setText(payMode[i]);
+                }
+            }
+            moneyShow.setText(String.valueOf(intent.getDoubleExtra("money", 0.00)));
+            sB_MoneyInput.append(String.valueOf(intent.getDoubleExtra("money", 0.00)));
+            for (int i = 0; i < sB_MoneyInput.length(); i++) {
+                if (sB_MoneyInput.charAt(i) == '.') {
+                    pointhave = true;
+                    if (i == sB_MoneyInput.length() - 2) {
+                        inputNumCount = i + 3;
+                    } else if (i == sB_MoneyInput.length() - 3) {
+                        inputNumCount = i + 3;
                     }
                 }
-                moneyShow.setText(String.valueOf(intent.getDoubleExtra("money", 0.00)));
-                sB_MoneyInput.append(String.valueOf(intent.getDoubleExtra("money", 0.00)));
-                for (int i = 0; i < sB_MoneyInput.length(); i++) {
-                    if (sB_MoneyInput.charAt(i) == '.') {
-                        pointhave = true;
-                        if (i == sB_MoneyInput.length() - 2) {
-                            inputNumCount = i + 3;
-                        } else if (i == sB_MoneyInput.length() - 3) {
-                            inputNumCount = i + 3;
-                        }
-                    }
-                }
-                if (!intent.getStringExtra("remark").equals("")) {
-                    // Log.e("SSSSSSSSSSSSSSSSS", intent.getStringExtra("remark"));
-                    initRemarkDatas(intent.getStringExtra("remark"));
-                } else {
-                    initRemarkDatas();
-                }
-
+            }
+            if (!intent.getStringExtra("remark").equals("")) {
+                // Log.e("SSSSSSSSSSSSSSSSS", intent.getStringExtra("remark"));
+                initRemarkDatas(intent.getStringExtra("remark"));
             } else {
                 initRemarkDatas();
             }
+
+        } else {
+            initRemarkDatas();
+        }
     }
 
 //    @Override
@@ -510,8 +510,8 @@ public class KeepAccountActivity extends Fragment implements View.OnClickListene
         btnPayMode = (Button)view.findViewById(R.id.btnPayMode);
         btnOk = (Button)view.findViewById(R.id.btnOK);
         btnDate = (Button)view.findViewById(R.id.btnDate);
-        btnSave = (ImageView)view.findViewById(R.id.btnSave);
-        btnBack = (ImageView)view.findViewById(R.id.btnBack1);
+//        btnSave = (ImageView)view.findViewById(R.id.btnSave);
+//        btnBack = (ImageView)view.findViewById(R.id.btnBack1);
         tagEditBtn = (ImageView)view.findViewById(R.id.tag_edit);
 
     }
@@ -596,7 +596,7 @@ public class KeepAccountActivity extends Fragment implements View.OnClickListene
                         inputNumCount = 4;
                     }
                     else
-                    sB_MoneyInput.append(".");
+                        sB_MoneyInput.append(".");
                     pointhave = true;
                     inputNumCount = sB_MoneyInput.length()+2;
                 }
@@ -612,7 +612,7 @@ public class KeepAccountActivity extends Fragment implements View.OnClickListene
                 startActivity(intent3);
                 break;
             case R.id.btnOK:
-            case  R.id.btnSave:
+//            case  R.id.btnSave:
                 if(sB_MoneyInput.length()!=0){
                     double numberInput = Double.valueOf(sB_MoneyInput.toString());
                     String reMarkInput = keepAccountRemarkShowRvAdapter.getRemark();
@@ -629,10 +629,10 @@ public class KeepAccountActivity extends Fragment implements View.OnClickListene
                         dateInput  = dateInput_year+"年"+dateInput_month+"月"+dateInput_day+"日";
                     }
                     else{
-                       dateInput_year = btnDate.getText().toString().substring(0,4);
-                       dateInput_month = btnDate.getText().toString().substring(5,7);
-                       dateInput_day = btnDate.getText().toString().substring(8,10);
-                       dateInput  = dateInput_year+"年"+dateInput_month+"月"+dateInput_day+"日";
+                        dateInput_year = btnDate.getText().toString().substring(0,4);
+                        dateInput_month = btnDate.getText().toString().substring(5,7);
+                        dateInput_day = btnDate.getText().toString().substring(8,10);
+                        dateInput  = dateInput_year+"年"+dateInput_month+"月"+dateInput_day+"日";
 
                     }
                     String inOrOut;
@@ -691,10 +691,10 @@ public class KeepAccountActivity extends Fragment implements View.OnClickListene
                     Toast.makeText(getActivity(),"没有输入",Toast.LENGTH_SHORT).show();
                 }
                 break;
-            case R.id.btnBack1:
-
-                getActivity().finish();
-                break;
+//            case R.id.btnBack1:
+//
+//                getActivity().finish();
+//                break;
 
             case R.id.btnDate:
                 datePicker.show(date,3);
@@ -735,10 +735,10 @@ public class KeepAccountActivity extends Fragment implements View.OnClickListene
             ContentValues values = new ContentValues();
             String[][]tag = new String[][]
                     {{"餐饮","晚餐","午餐","早餐"},{"零食","薯片","辣条"},{"购物","衣服","化妆品"},{"娱乐","网吧","KTV"},{"学习","书籍","文具"},
-                    {"数码","手机","相机"},{"停放","兰博基尼","法拉利"},{"酒店","四季","豪生"},{"出差","海南","成都"},{"公交","地铁","公交"},
-                    {"飞机","飞海南","飞南海"},{"旅行","三亚","夏威夷"},{"度假","地中海"},{"健身","跑步"},{"户外","登山","远足"},
-                    {"出租车","滴滴"},{"火车","高铁"},{"轮船","都江堰-成都"},{"剧院","周杰伦演唱会"},
-                    {"工资","月薪"},{"投资","花记"},{"彩票","体彩"},{"红包","妈给的"},{"福利","老板给的"},
+                            {"数码","手机","相机"},{"停放","兰博基尼","法拉利"},{"酒店","四季","豪生"},{"出差","海南","成都"},{"公交","地铁","公交"},
+                            {"飞机","飞海南","飞南海"},{"旅行","三亚","夏威夷"},{"度假","地中海"},{"健身","跑步"},{"户外","登山","远足"},
+                            {"出租车","滴滴"},{"火车","高铁"},{"轮船","都江堰-成都"},{"剧院","周杰伦演唱会"},
+                            {"工资","月薪"},{"投资","花记"},{"彩票","体彩"},{"红包","妈给的"},{"福利","老板给的"},
                             {"兼职","洗盘子"},{"利息","中国银行"},{"贷款","房贷"},{"风投","天使轮"},{"变卖","显示器"},
                             {"其他","随便写点啥"}};
 

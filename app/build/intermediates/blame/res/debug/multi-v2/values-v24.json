@@ -1,20 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "F:\\Android\\AndroidStudioProjects\\AccountAPP\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v24\\values-v24.xml",
+            "outputFile": "D:\\SP\\AccountAPP\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v24\\values-v24.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\12493\\.gradle\\caches\\transforms-2\\files-2.1\\893d9e29ff6228e442aa976b96e3ccf6\\res\\values-v24\\values-v24.xml",
-                    "from": {
-                        "startLines": "2,3",
-                        "startColumns": "4,4",
-                        "startOffsets": "55,212",
-                        "endColumns": "156,134",
-                        "endOffsets": "207,342"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\12493\\.gradle\\caches\\transforms-2\\files-2.1\\aead9459e90dee8dcda3af65adadee5b\\res\\values-v24\\values-v24.xml",
+                    "source": "C:\\Users\\50303\\.gradle\\caches\\transforms-2\\files-2.1\\48fdb4e206dc955dcb1f6d9e909eb273\\res\\values-v24\\values-v24.xml",
                     "from": {
                         "startLines": "2,3,4,5",
                         "startColumns": "4,4,4,4",
@@ -28,6 +18,16 @@
                         "startOffsets": "347,413,474,540",
                         "endColumns": "65,60,65,66",
                         "endOffsets": "408,469,535,602"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\50303\\.gradle\\caches\\transforms-2\\files-2.1\\60c5c952d9be43410b64d285be490d49\\res\\values-v24\\values-v24.xml",
+                    "from": {
+                        "startLines": "2,3",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,212",
+                        "endColumns": "156,134",
+                        "endOffsets": "207,342"
                     }
                 }
             ]

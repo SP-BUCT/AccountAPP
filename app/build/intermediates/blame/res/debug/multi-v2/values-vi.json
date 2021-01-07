@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "F:\\Android\\AndroidStudioProjects\\AccountAPP\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-vi\\values-vi.xml",
+            "outputFile": "D:\\SP\\AccountAPP\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-vi\\values-vi.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\12493\\.gradle\\caches\\transforms-2\\files-2.1\\2681a4dc0d68293818bb43a06b18fec8\\res\\values-vi\\values-vi.xml",
+                    "source": "C:\\Users\\50303\\.gradle\\caches\\transforms-2\\files-2.1\\c97b7399e5d7530471d6237afc42cfbe\\res\\values-vi\\values-vi.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -21,7 +21,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\12493\\.gradle\\caches\\transforms-2\\files-2.1\\893d9e29ff6228e442aa976b96e3ccf6\\res\\values-vi\\values-vi.xml",
+                    "source": "C:\\Users\\50303\\.gradle\\caches\\transforms-2\\files-2.1\\60c5c952d9be43410b64d285be490d49\\res\\values-vi\\values-vi.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
