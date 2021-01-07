@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "D:\\SP\\AccountAPP\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v23\\values-v23.xml",
+            "outputFile": "F:\\Android\\AndroidStudioProjects\\AccountAPP\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v23\\values-v23.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\50303\\.gradle\\caches\\transforms-2\\files-2.1\\c309275f091dcec6cb4304642957fe20\\res\\values-v23\\values-v23.xml",
+                    "source": "C:\\Users\\12493\\.gradle\\caches\\transforms-2\\files-2.1\\de00c786923a6e935547d022a64e166d\\res\\values-v23\\values-v23.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -23,7 +23,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\50303\\.gradle\\caches\\transforms-2\\files-2.1\\60c5c952d9be43410b64d285be490d49\\res\\values-v23\\values-v23.xml",
+                    "source": "C:\\Users\\12493\\.gradle\\caches\\transforms-2\\files-2.1\\893d9e29ff6228e442aa976b96e3ccf6\\res\\values-v23\\values-v23.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,19,32,33,34,35,36",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4",

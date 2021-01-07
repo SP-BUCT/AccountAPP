@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.zzyyff.accountapp.Activity_usehelp">
+    tools:context="com.example.zzyyff.flowerrecords.Activity_usehelp">
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraintLayout"

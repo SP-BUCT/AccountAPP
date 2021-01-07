@@ -67,7 +67,7 @@
             android:paddingRight="20dp"
             android:paddingTop="15dp">
 
-            <com.example.zzyyff.accountapp.tools_DatePickerView
+            <com.example.zzyyff.flowerrecords.tools_DatePickerView
                 android:id="@+id/year_pv"
                 android:layout_width="0dp"
                 android:layout_height="160dp"
@@ -82,7 +82,7 @@
                 android:textColor="@color/color_unit"
                 android:textSize="18sp" />
 
-            <com.example.zzyyff.accountapp.tools_DatePickerView
+            <com.example.zzyyff.flowerrecords.tools_DatePickerView
                 android:id="@+id/month_pv"
                 android:layout_width="0dp"
                 android:layout_height="160dp"
@@ -97,7 +97,7 @@
                 android:textColor="@color/color_unit"
                 android:textSize="18sp" />
 
-            <com.example.zzyyff.accountapp.tools_DatePickerView
+            <com.example.zzyyff.flowerrecords.tools_DatePickerView
                 android:id="@+id/day_pv"
                 android:layout_width="0dp"
                 android:layout_height="160dp"
@@ -113,7 +113,7 @@
                 android:textColor="@color/color_unit"
                 android:textSize="18sp" />
 
-            <com.example.zzyyff.accountapp.tools_DatePickerView
+            <com.example.zzyyff.flowerrecords.tools_DatePickerView
                 android:id="@+id/hour_pv"
                 android:layout_width="0dp"
                 android:layout_height="160dp"
@@ -129,7 +129,7 @@
                 android:textColor="@color/color_unit"
                 android:textSize="18sp" />
 
-            <com.example.zzyyff.accountapp.tools_DatePickerView
+            <com.example.zzyyff.flowerrecords.tools_DatePickerView
                 android:id="@+id/minute_pv"
                 android:layout_width="0dp"
                 android:layout_height="160dp"

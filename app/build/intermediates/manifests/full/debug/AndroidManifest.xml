@@ -33,7 +33,7 @@
         </provider>
 
         <activity
-            android:name="com.example.zzyyff.accountapp.Activity_Start"
+            android:name="com.example.zzyyff.flowerrecords.Activity_Start"
             android:icon="@drawable/logo"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" >
@@ -44,28 +44,28 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.zzyyff.accountapp.KeepAccountActivity"
+            android:name="com.example.zzyyff.flowerrecords.KeepAccountActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.example.zzyyff.accountapp.Activity_detail"
+            android:name="com.example.zzyyff.flowerrecords.Activity_detail"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.example.zzyyff.accountapp.Activity_diaryedit"
+            android:name="com.example.zzyyff.flowerrecords.Activity_diaryedit"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.example.zzyyff.accountapp.Activity_usehelp"
+            android:name="com.example.zzyyff.flowerrecords.Activity_usehelp"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.example.zzyyff.accountapp.Activity_tagEdit"
+            android:name="com.example.zzyyff.flowerrecords.Activity_tagEdit"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.example.zzyyff.accountapp.Activity_StyleChanged"
+            android:name="com.example.zzyyff.flowerrecords.Activity_StyleChanged"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.example.zzyyff.accountapp.Activity_About"
+            android:name="com.example.zzyyff.flowerrecords.Activity_About"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.example.zzyyff.accountapp.Activity_MainActivity"
+            android:name="com.example.zzyyff.flowerrecords.Activity_MainActivity"
             android:screenOrientation="portrait" >
         </activity>
     </application>

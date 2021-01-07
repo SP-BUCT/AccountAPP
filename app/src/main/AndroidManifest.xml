@@ -28,7 +28,7 @@
         </provider>
 
         <activity
-            android:name="com.example.zzyyff.accountapp.Activity_Start"
+            android:name=".Activity_Start"
             android:screenOrientation="portrait"
             android:icon="@drawable/logo"
             android:launchMode="singleTask">
@@ -38,28 +38,28 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.example.zzyyff.accountapp.KeepAccountActivity"
+        <activity android:name=".KeepAccountActivity"
             android:screenOrientation="portrait"
             />
-        <activity android:name="com.example.zzyyff.accountapp.Activity_detail"
+        <activity android:name=".Activity_detail"
             android:screenOrientation="portrait"
             />
-        <activity android:name="com.example.zzyyff.accountapp.Activity_diaryedit"
+        <activity android:name=".Activity_diaryedit"
             android:screenOrientation="portrait"
             />
-        <activity android:name="com.example.zzyyff.accountapp.Activity_usehelp"
+        <activity android:name=".Activity_usehelp"
             android:screenOrientation="portrait"
             />
-        <activity android:name="com.example.zzyyff.accountapp.Activity_tagEdit"
+        <activity android:name=".Activity_tagEdit"
             android:screenOrientation="portrait"
             />
-        <activity android:name="com.example.zzyyff.accountapp.Activity_StyleChanged"
+        <activity android:name=".Activity_StyleChanged"
             android:screenOrientation="portrait"
             />
-        <activity android:name="com.example.zzyyff.accountapp.Activity_About"
+        <activity android:name=".Activity_About"
             android:screenOrientation="portrait"
             />
-        <activity android:name="com.example.zzyyff.accountapp.Activity_MainActivity"
+        <activity android:name=".Activity_MainActivity"
             android:screenOrientation="portrait"
             >
 
