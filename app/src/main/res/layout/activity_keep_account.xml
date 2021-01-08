@@ -247,7 +247,7 @@
                     </android.support.v7.widget.RecyclerView>
 
                     <ImageView
-                        android:id="@+id/tag_edit"
+                        android:id="@+id/add_credit"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="11dp"
@@ -463,7 +463,7 @@
                             android:textSize="18sp" />
 
                         <Button
-                            android:id="@+id/btnDel"
+                            android:id="@+id/btnClear"
                             style="?android:attr/borderlessButtonStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -473,7 +473,7 @@
                             android:layout_marginTop="8dp"
                             android:layout_weight="1"
                             android:background="@drawable/ic_key_back"
-                            android:text="×"
+                            android:text="AC"
                             android:textSize="18sp" />
                     </LinearLayout>
 
@@ -482,6 +482,20 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:orientation="vertical">
+
+                        <Button
+                            android:id="@+id/btnDel"
+                            style="?android:attr/borderlessButtonStyle"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginBottom="8dp"
+                            android:layout_marginLeft="7dp"
+                            android:layout_marginRight="7dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_weight="6"
+                            android:background="@drawable/ic_key_back"
+                            android:text="×"
+                            android:textSize="18sp" />
 
                         <Button
                             android:id="@+id/btnDate"
@@ -497,19 +511,6 @@
                             android:text="今日"
                             android:textSize="18sp" />
 
-                        <Button
-                            android:id="@+id/btnPayMode"
-                            style="?android:attr/borderlessButtonStyle"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginBottom="8dp"
-                            android:layout_marginLeft="7dp"
-                            android:layout_marginRight="7dp"
-                            android:layout_marginTop="8dp"
-                            android:layout_weight="6"
-                            android:background="@drawable/ic_key_back"
-                            android:text="现金"
-                            android:textSize="18sp" />
 
                         <Button
                             android:id="@+id/btnOK"

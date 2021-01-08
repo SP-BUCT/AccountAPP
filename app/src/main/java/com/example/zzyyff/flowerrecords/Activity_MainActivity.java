@@ -106,7 +106,7 @@ public class Activity_MainActivity extends AppCompatActivity implements ViewPage
                 .addItem(new BottomNavigationItem(R.drawable.diary,"账户").setActiveColorResource(typedValue.resourceId))
                 .addItem(new BottomNavigationItem(R.drawable.mine,"我的").setActiveColorResource(typedValue.resourceId))
                 .setFirstSelectedPosition(0).initialise();
-        setBottomNavigationItem(11,16,0,30);
+        setBottomNavigationItem(11,16,0,27);
     }
     private void setBottomNavigationItem(int space, int imgLen,int centerSpace,int centerImglen) {
         float contentLen = 36;

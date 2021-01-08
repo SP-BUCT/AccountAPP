@@ -1,5 +1,6 @@
 package com.example.zzyyff.flowerrecords;
 
+import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -18,6 +19,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.text.SimpleDateFormat;
@@ -84,11 +86,12 @@ public class KeepAccountActivity extends AppCompatActivity implements View.OnCli
     private Button btnPoint;
     private Button btnDel;
     private Button btnDate;
-    private Button btnPayMode;
+    private Button btnClear;
+//    private Button btnPayMode;
     private Button btnOk;
     private ImageView btnSave;
     private ImageView btnBack;
-    private ImageView tagEditBtn;
+    private ImageView add_creditBtn;
 
 
     StringBuilder sB_MoneyInput = new StringBuilder();
@@ -96,6 +99,18 @@ public class KeepAccountActivity extends AppCompatActivity implements View.OnCli
     SharedPreferences.Editor editor;
 
     private int beforeIndexPage = 0;//记录上一次点的位置
+
+    List<class_Credit>credits = new ArrayList();
+    adapter_credit adapter_credit;
+
+    ImageView add_credit;//添加账户，源代码记账用了account,无奈账户只能用credit表示
+
+    View popCreditType;
+    AlertDialog creditTypeSelect;
+    LinearLayout type_cash;
+    LinearLayout type_saving;
+    LinearLayout type_credit;//指账户类别中的信用卡
+    LinearLayout type_online;//指账户类别中的网络支付账户
 
 
     @Override
@@ -116,6 +131,9 @@ public class KeepAccountActivity extends AppCompatActivity implements View.OnCli
 
         findViewById();
 
+        initClickListener();
+        initAlertDialog();
+
         btnNum0.setOnClickListener(this);
         btnNum1.setOnClickListener(this);
         btnNum2.setOnClickListener(this);
@@ -126,16 +144,17 @@ public class KeepAccountActivity extends AppCompatActivity implements View.OnCli
         btnNum7.setOnClickListener(this);
         btnNum8.setOnClickListener(this);
         btnNum9.setOnClickListener(this);
-        btnPayMode.setOnClickListener(this);
+//        btnPayMode.setOnClickListener(this);
         btnOk.setOnClickListener(this);
         btnPoint.setOnClickListener(this);
         btnDel.setOnClickListener(this);
+        btnClear.setOnClickListener(this);
         btnDate.setOnClickListener(this);
         btnSave.setOnClickListener(this);
         tvOut.setOnClickListener(this);
         tvIn.setOnClickListener(this);
         btnBack.setOnClickListener(this);
-        tagEditBtn.setOnClickListener(this);
+//        add_creditBtn.setOnClickListener(this);
 
 
         initPicker();
@@ -235,8 +254,6 @@ public class KeepAccountActivity extends AppCompatActivity implements View.OnCli
         remarkDatas= new ArrayList<class_tagitem>();
 
         String tag_now ;
-
-
 
         Cursor cursor1 = db_tag.query("tag",null,"property=?",
                 new String[]{tvShow.getText().toString()},null,null,"id desc");
@@ -439,7 +456,7 @@ public class KeepAccountActivity extends AppCompatActivity implements View.OnCli
             for (int i = 0; i < payMode.length; i++) {
                 if (payMode[i].equals(intent.getStringExtra("paymethod"))) {
                     payModeCount++;
-                    btnPayMode.setText(payMode[i]);
+//                    btnPayMode.setText(payMode[i]);
                 }
             }
             moneyShow.setText(String.valueOf(intent.getDoubleExtra("money", 0.00)));
@@ -474,6 +491,73 @@ public class KeepAccountActivity extends AppCompatActivity implements View.OnCli
 
     }
 
+    private void initClickListener() {
+        add_credit = findViewById(R.id.add_credit);
+        add_credit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                creditTypeSelect.show();
+                type_cash.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(KeepAccountActivity.this, Activity_creditedit.class);
+                        intent.putExtra("addoredit","add");
+                        intent.putExtra("ctype","现金");
+                        startActivityForResult(intent, 1);
+//                        startActivity(intent);
+                        creditTypeSelect.dismiss();
+                    }
+                });
+                type_saving.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(KeepAccountActivity.this, Activity_creditedit.class);
+                        intent.putExtra("addoredit","add");
+                        intent.putExtra("ctype","储蓄卡");
+                        startActivityForResult(intent, 1);
+//                        startActivity(intent);
+                        creditTypeSelect.dismiss();
+                    }
+                });
+                type_credit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(KeepAccountActivity.this, Activity_creditedit.class);
+                        intent.putExtra("addoredit","add");
+                        intent.putExtra("ctype","信用卡");
+//                        startActivity(intent);
+                        startActivityForResult(intent, 1);
+                        creditTypeSelect.dismiss();
+                    }
+                });
+                type_online.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(KeepAccountActivity.this, Activity_creditedit.class);
+                        intent.putExtra("addoredit","add");
+                        intent.putExtra("ctype","网络支付账户");
+                        startActivityForResult(intent, 1);
+//                        startActivity(intent);
+                        creditTypeSelect.dismiss();
+                    }
+                });
+            }
+        });
+
+    }
+
+    private void initAlertDialog() {
+        creditTypeSelect = new AlertDialog.Builder(KeepAccountActivity.this).create();
+        popCreditType = LayoutInflater.from(KeepAccountActivity.this).inflate(R.layout.pop_credittype,null);
+        creditTypeSelect.setView(popCreditType);
+        creditTypeSelect.setCanceledOnTouchOutside(true);
+
+        type_cash = popCreditType.findViewById(R.id.type_cash);
+        type_saving = popCreditType.findViewById(R.id.type_saving);
+        type_credit = popCreditType.findViewById(R.id.type_credit);
+        type_online = popCreditType.findViewById(R.id.type_online);
+    }
+
     private void findViewById(){
         tvShow = (TextView)findViewById(R.id.tvShow);
         ivShow = (ImageView)findViewById(R.id.ivShow);
@@ -496,12 +580,12 @@ public class KeepAccountActivity extends AppCompatActivity implements View.OnCli
         btnNum9 = (Button)findViewById(R.id.btnNum9);
         btnPoint = (Button)findViewById(R.id.btnPoint);
         btnDel = (Button)findViewById(R.id.btnDel);
-        btnPayMode = (Button)findViewById(R.id.btnPayMode);
+        btnClear = (Button)findViewById(R.id.btnClear);
+//        btnPayMode = (Button)findViewById(R.id.btnPayMode);
         btnOk = (Button)findViewById(R.id.btnOK);
         btnDate = (Button)findViewById(R.id.btnDate);
         btnSave = (ImageView)findViewById(R.id.btnSave);
         btnBack = (ImageView)findViewById(R.id.btnBack1);
-        tagEditBtn = (ImageView)findViewById(R.id.tag_edit);
 
     }
     @Override
@@ -591,21 +675,21 @@ public class KeepAccountActivity extends AppCompatActivity implements View.OnCli
                 }
                 moneyShow.setText(sB_MoneyInput);
                 break;
-            case R.id.btnPayMode:
-                btnPayMode.setText(payMode[payModeCount%6]);
-                payModeCount++;
-                break;
-            case R.id.tag_edit:
-                Intent intent3 = new Intent(this,Activity_tagEdit.class);
-                intent3.putExtra("property",tvShow.getText().toString());
-                startActivity(intent3);
-                break;
+//            case R.id.btnPayMode:
+//                btnPayMode.setText(payMode[payModeCount%6]);
+//                payModeCount++;
+//                break;
+//            case R.id.add_credit:
+//                Intent intent3 = new Intent(this,Activity_tagEdit.class);
+//                intent3.putExtra("property",tvShow.getText().toString());
+//                startActivity(intent3);
+//                break;
             case R.id.btnOK:
             case  R.id.btnSave:
                 if(sB_MoneyInput.length()!=0){
                     double numberInput = Double.valueOf(sB_MoneyInput.toString());
                     String reMarkInput = keepAccountRemarkShowRvAdapter.getRemark();
-                    String payModeInput = btnPayMode.getText().toString();
+//                    String payModeInput = btnPayMode.getText().toString();
                     String dateInput;
                     String dateInput_year;
                     String dateInput_month;
@@ -648,7 +732,7 @@ public class KeepAccountActivity extends AppCompatActivity implements View.OnCli
                     values.put("date_day",dateInput_day);
                     //values.put("time","12:20");
                     values.put("property",propertyInput);
-                    values.put("paymethod",payModeInput);
+                    values.put("paymethod","现金");
 
                     if(intent.getStringExtra("addoredit").equals("add"))
                     {
@@ -665,7 +749,7 @@ public class KeepAccountActivity extends AppCompatActivity implements View.OnCli
                     bundle.putString("date",dateInput);
                     bundle.putDouble("money",numberInput);
                     bundle.putString("remark",reMarkInput);
-                    bundle.putString("paymethod",payModeInput);
+                    bundle.putString("paymethod","现金");
                     setResult(RESULT_OK,intent1);
                     intent1.putExtras(bundle);
                     finish();
@@ -697,7 +781,10 @@ public class KeepAccountActivity extends AppCompatActivity implements View.OnCli
                     moneyShow.setText(sB_MoneyInput);
                 }
                 break;
-
+            case R.id.btnClear:
+                sB_MoneyInput.delete(0, sB_MoneyInput.length());
+                moneyShow.setText(String.valueOf(intent.getDoubleExtra("money", 0.00)));
+                break;
 
         }
     }
@@ -711,6 +798,8 @@ public class KeepAccountActivity extends AppCompatActivity implements View.OnCli
         }
         else {
             initRemarkDatas();
+            sB_MoneyInput.delete(0, sB_MoneyInput.length());
+            moneyShow.setText(String.valueOf(intent.getDoubleExtra("money", 0.00)));
         }
 
     }
