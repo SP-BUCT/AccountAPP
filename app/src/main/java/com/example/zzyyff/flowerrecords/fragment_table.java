@@ -1,6 +1,7 @@
 package com.example.zzyyff.flowerrecords;
 
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
@@ -64,7 +65,7 @@ public class fragment_table extends Fragment {
     String date_year;
     String date_month;
     TypedValue typedValue = new TypedValue();
-
+    TextView gotoBarChart;
 
     int COLORFUL[] = new int[]{Color.parseColor("#f6ec66"),
             Color.parseColor("#f97272"),
@@ -99,9 +100,7 @@ public class fragment_table extends Fragment {
         scrollView.setVerticalScrollBarEnabled(false);
         initPicker();
         getContext().getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
-
-
-
+        gotoBarChart = view.findViewById(R.id.gotoBarChart);
 
         chooseDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,7 +108,6 @@ public class fragment_table extends Fragment {
                 customDatePicker.show(date,2);
             }
         });
-
 
         selectIsout[0] = true;
         clicktoincome.setOnClickListener(new View.OnClickListener() {
@@ -149,6 +147,13 @@ public class fragment_table extends Fragment {
                 }
             }
         });
+        gotoBarChart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(),Activity_barchart.class);
+                startActivity(intent);
+            }
+        });
         return view;
     }
     private void initoutPieChart(String inorout) {
@@ -171,9 +176,6 @@ public class fragment_table extends Fragment {
             for (int i = 0; i < property_out.size(); i++) {
                 percntList.add(costList.get(i) / alloutcome);
             }
-
-
-
 
             outPiechart.setExtraOffsets(10, 10, 10, 10);
             //outPiechart.setUsePercentValues(true);// 是否使用百分比
