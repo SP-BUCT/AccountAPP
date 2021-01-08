@@ -189,9 +189,18 @@
                             android:layout_marginBottom="15dp"
                             android:layout_weight="1"
                             android:text="Hello World!"
-                            android:visibility="visible">
+                            android:visibility="visible"/>
 
-                        </com.github.mikephil.charting.charts.PieChart>
+                        <com.github.mikephil.charting.charts.BarChart
+                            android:id="@+id/mBarChart"
+                            android:layout_width="match_parent"
+                            android:layout_height="300dp"
+                            android:layout_marginTop="50dp"
+                            android:layout_marginBottom="15dp"
+                            android:layout_weight="1"
+                            android:text="Hello World!"
+                            android:visibility="gone"/>
+
 
                         <TextView
                             android:id="@+id/nullrecord1"
@@ -204,6 +213,16 @@
                             android:visibility="gone" />
 
                         <TextView
+                            android:id="@+id/showBarChart"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom|left"
+                            android:layout_marginBottom="15dp"
+                            android:textColor="?attr/colorPrimary"
+                            android:text="切换"
+                            android:textSize="16sp" />
+
+                        <TextView
                             android:id="@+id/gotoBarChart"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -212,13 +231,15 @@
                             android:textColor="?attr/colorPrimary"
                             android:text="结算"
                             android:textSize="16sp" />
-                            />
+
                     </FrameLayout>
 
 
                 </android.support.v7.widget.CardView>
 
             </android.support.v7.widget.CardView>
+
+
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"

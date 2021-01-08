@@ -18,13 +18,21 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
@@ -41,6 +49,7 @@ public class fragment_table extends Fragment {
     tools_MyDatabaseHelper dbHelper;
     SQLiteDatabase db;
     PieChart outPiechart;
+    BarChart outBarchart;
     TextView nullrecord1;
     TextView nullrecord2;
     TextView choose_year;
@@ -65,7 +74,9 @@ public class fragment_table extends Fragment {
     String date_year;
     String date_month;
     TypedValue typedValue = new TypedValue();
+    TextView showBarChart;
     TextView gotoBarChart;
+    Boolean charttype;
 
     int COLORFUL[] = new int[]{Color.parseColor("#f6ec66"),
             Color.parseColor("#f97272"),
@@ -80,6 +91,7 @@ public class fragment_table extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.layout_tble, container, false);
         outPiechart = view.findViewById(R.id.mPieChart);
+        outBarchart = view.findViewById(R.id.mBarChart);
         nullrecord1 = view.findViewById(R.id.nullrecord1);
         nullrecord2 = view.findViewById(R.id.nullrecord2);
         choose_year = view.findViewById(R.id.year);
@@ -100,7 +112,9 @@ public class fragment_table extends Fragment {
         scrollView.setVerticalScrollBarEnabled(false);
         initPicker();
         getContext().getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
+        showBarChart = view.findViewById(R.id.showBarChart);
         gotoBarChart = view.findViewById(R.id.gotoBarChart);
+        charttype = false;
 
         chooseDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -144,6 +158,21 @@ public class fragment_table extends Fragment {
 
                     selectIsout[0] = true;
                     selectIsin[0] = false;
+                }
+            }
+        });
+        showBarChart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (charttype == false) {
+                   charttype = true;
+                   outPiechart.setVisibility(View.GONE);
+                   outBarchart.setVisibility(View.VISIBLE);
+                }
+                else {
+                    charttype = false;
+                    outBarchart.setVisibility(View.GONE);
+                    outPiechart.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -224,6 +253,109 @@ public class fragment_table extends Fragment {
             outPiechart.animateY(1000);
 
     }
+
+    private void initoutBarChart(String inorout) {
+        DecimalFormat df = new DecimalFormat("#.##");
+        double alloutcome = 0;
+        List<BarEntry> yVals = new ArrayList <>(); //y值
+        yVals.clear();
+        for (int i = 0; i < property_out.size(); i++) {
+            alloutcome += costList.get(i);
+            if(inorout.equals("支出")) {
+                outcome_all.setText(df.format(alloutcome));
+            }else {
+                income_all.setText(df.format(alloutcome));
+            }
+            yVals.add(new BarEntry(i, costList.get(i)));
+        }
+
+        BarDataSet barDataSet = new BarDataSet(yVals, "");//创建饼图的一个数据集
+        barDataSet.setValueTextSize(11f);
+        barDataSet.setColors(COLORFUL); //设置成丰富多彩的颜色
+
+        BarData bardata = new BarData(barDataSet);//生成PieData
+        outBarchart.setData(bardata);//给PieChart填充数据
+        outBarchart.getLegend().setPosition(Legend.LegendPosition.RIGHT_OF_CHART_CENTER);
+        outBarchart.getLegend().setForm(Legend.LegendForm.CIRCLE);//设置注解的位置和形状
+        outBarchart.getLegend().setTextSize(12);
+//        outBarchart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {//设置值选择时的Listener
+//
+//            @Override
+//            public void onValueSelected(Entry e, Highlight h) {
+//                outBarchart.animateY(1000);
+//            }
+//
+//            @Override
+//            public void onNothingSelected() {
+//            }
+//        });
+
+
+        outBarchart.getDescription().setEnabled(false);//设置描述
+        outBarchart.setPinchZoom(true);//设置按比例放缩柱状图
+
+//        //设置自定义的markerView
+//        MPChartMarkerView markerView = new MPChartMarkerView(outBarchart.getContext(), R.layout.custom_marker_view);
+//        barChart.setMarker(markerView);
+
+        //x坐标轴设置
+//        IAxisValueFormatter xAxisFormatter = new StringAxisValueFormatter(xAxisValue);//设置自定义的x轴值格式化器
+        XAxis xAxis = outBarchart.getXAxis();//获取x轴
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);//设置X轴标签显示位置
+        xAxis.setDrawGridLines(false);//不绘制格网线
+        xAxis.setGranularity(1f);//设置最小间隔，防止当放大时，出现重复标签。
+//        xAxis.setValueFormatter(xAxisFormatter);
+//        xAxis.setTextSize(xAxisTextSize);//设置标签字体大小
+//        xAxis.setLabelCount(xAxisValue.size());//设置标签显示的个数
+        //X轴自定义值
+        xAxis.setValueFormatter(new IAxisValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, AxisBase axis) {
+                //当设置了xAxis.setAxisMinimum(0f);时，value的值可能为负值，会报空指针异常
+                if (value < 0) {
+                    return "";
+                }
+
+                //x轴标签的值
+                String labelValue = property_out.get((int) value % property_out.size());
+//                if (labelValue.length() > 4) {
+//                    labelValue = labelValue.substring(0,4)+"…";
+//                }
+                return labelValue;
+            }
+        });
+
+
+
+        //y轴设置
+        YAxis leftAxis = outBarchart.getAxisLeft();//获取左侧y轴
+        leftAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART);//设置y轴标签显示在外侧
+        leftAxis.setAxisMinimum(0f);//设置Y轴最小值
+        leftAxis.setDrawGridLines(false);
+        leftAxis.setDrawLabels(false);//禁止绘制y轴标签
+        leftAxis.setDrawAxisLine(false);//禁止绘制y轴
+
+        outBarchart.getAxisRight().setEnabled(false);//禁用右侧y轴
+
+        //图例设置
+        Legend legend = outBarchart.getLegend();
+        legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);//图例水平居中
+        legend.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);//图例在图表上方
+        legend.setOrientation(Legend.LegendOrientation.HORIZONTAL);//图例的方向为水平
+        legend.setDrawInside(false);//绘制在chart的外侧
+        legend.setDirection(Legend.LegendDirection.LEFT_TO_RIGHT);//图例中的文字方向
+
+        legend.setForm(Legend.LegendForm.SQUARE);//图例窗体的形状
+        legend.setFormSize(0f);//图例窗体的大小
+        legend.setTextSize(16f);//图例文字的大小
+        //legend.setYOffset(-2f);
+
+        outBarchart.setExtraBottomOffset(10);//距视图窗口底部的偏移，类似与paddingbottom
+        outBarchart.setExtraTopOffset(30);//距视图窗口顶部的偏移，类似与paddingtop
+        outBarchart.setFitBars(true);//使两侧的柱图完全显示
+        outBarchart.animateX(1500);//数据显示动画，从左往右依次显示
+    }
+
     private void selectout(){
         property_out.clear();
         costList.clear();
@@ -276,6 +408,7 @@ public class fragment_table extends Fragment {
             } while (cursor2.moveToNext());
             rec.setVisibility(View.VISIBLE);
             initoutPieChart("支出");
+            initoutBarChart("支出");
             initRecList();
         }
         else {
@@ -332,6 +465,7 @@ public class fragment_table extends Fragment {
 
             } while (cursor2.moveToNext());
             initoutPieChart("收入");
+            initoutBarChart("收入");
             initRecList();
         }
         else {
