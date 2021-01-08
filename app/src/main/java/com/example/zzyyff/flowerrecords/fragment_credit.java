@@ -1,5 +1,6 @@
 package com.example.zzyyff.flowerrecords;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -11,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import java.net.Inet4Address;
 import java.util.ArrayList;
@@ -22,9 +24,18 @@ public class fragment_credit extends Fragment {
     SQLiteDatabase db;
     View view;
     List<class_Credit>credits = new ArrayList();
-    com.example.zzyyff.flowerrecords.adapter_credit adapter_credit;
+    adapter_credit adapter_credit;
 
-    ImageView add_credit;
+//    ImageView add_credit;//添加账户，源代码记账用了account,无奈账户只能用credit表示
+//
+//    View popCreditType;
+//    AlertDialog creditTypeSelect;
+//    LinearLayout type_cash;
+//    LinearLayout type_saving;
+//    LinearLayout type_credit;//指账户类别中的信用卡
+//    LinearLayout type_online;//指账户类别中的网络支付账户
+
+
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -34,18 +45,81 @@ public class fragment_credit extends Fragment {
         rec = view.findViewById(R.id.rec_credit);
         rec.setLayoutManager(new LinearLayoutManager(getContext()));
 
+//        initClickListener();
+//        initAlertDialog();
 
-        add_credit = view.findViewById(R.id.add_credit);
 
-        add_credit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(),  Activity_creditedit.class);
-                startActivity(intent);
-            }
-        });
         return view;
     }
+
+
+//    private void initClickListener() {
+//        add_credit = view.findViewById(R.id.add_credit);
+//        add_credit.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                creditTypeSelect.show();
+//            }
+//        });
+//
+//        type_cash.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(getActivity(), Activity_creditedit.class);
+//                intent.putExtra("addoredit","add");
+//                intent.putExtra("type","现金");
+////                startActivityForResult(intent, 1);
+//
+//                startActivity(intent);
+//                creditTypeSelect.dismiss();
+//            }
+//        });
+//
+//        type_saving.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(getActivity(), Activity_creditedit.class);
+//                intent.putExtra("addoredit","add");
+//                intent.putExtra("type","储蓄卡");
+//                startActivityForResult(intent, 1);
+//                creditTypeSelect.dismiss();
+//            }
+//        });
+//        type_credit.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(getActivity(), Activity_creditedit.class);
+//                intent.putExtra("addoredit","add");
+//                intent.putExtra("type","信用卡");
+//                startActivityForResult(intent, 1);
+//                creditTypeSelect.dismiss();
+//            }
+//        });
+//        type_online.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(getActivity(), Activity_creditedit.class);
+//                intent.putExtra("addoredit","add");
+//                intent.putExtra("type","网络支付账户");
+//                startActivityForResult(intent, 1);
+//                creditTypeSelect.dismiss();
+//            }
+//        });
+//    }
+
+//    private void initAlertDialog() {
+//        creditTypeSelect = new AlertDialog.Builder(getActivity()).create();
+//        popCreditType = LayoutInflater.from(getActivity()).inflate(R.layout.pop_credittype,null);
+//        creditTypeSelect.setView(popCreditType);
+//        creditTypeSelect.setCanceledOnTouchOutside(true);
+//
+//        type_cash = popCreditType.findViewById(R.id.type_cash);
+//        type_saving = popCreditType.findViewById(R.id.type_saving);
+//        type_credit = popCreditType.findViewById(R.id.type_credit);
+//        type_online = popCreditType.findViewById(R.id.type_online);
+//    }
+
     protected void initList()
     {
         credits.clear();
