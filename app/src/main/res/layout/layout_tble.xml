@@ -185,20 +185,20 @@
                             android:id="@+id/mPieChart"
                             android:layout_width="match_parent"
                             android:layout_height="300dp"
-                            android:layout_marginTop="50dp"
-                            android:layout_marginBottom="15dp"
+                            android:layout_marginTop="38dp"
+                            android:layout_marginBottom="25dp"
                             android:layout_weight="1"
-                            android:text="Hello World!"
-                            android:visibility="visible"/>
+                            android:text="PieChart"
+                            android:visibility="visible" />
 
                         <com.github.mikephil.charting.charts.BarChart
                             android:id="@+id/mBarChart"
                             android:layout_width="match_parent"
                             android:layout_height="300dp"
-                            android:layout_marginTop="50dp"
-                            android:layout_marginBottom="15dp"
+                            android:layout_marginTop="38dp"
+                            android:layout_marginBottom="35dp"
                             android:layout_weight="1"
-                            android:text="Hello World!"
+                            android:text="BarChart"
                             android:visibility="gone"/>
 
 
@@ -217,9 +217,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="bottom|left"
-                            android:layout_marginBottom="15dp"
-                            android:textColor="?attr/colorPrimary"
+                            android:layout_marginBottom="10dp"
                             android:text="切换"
+                            android:textColor="?attr/colorPrimary"
                             android:textSize="16sp" />
 
                         <TextView
@@ -227,9 +227,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="bottom|right"
-                            android:layout_marginBottom="15dp"
-                            android:textColor="?attr/colorPrimary"
+                            android:layout_marginBottom="10dp"
                             android:text="结算"
+                            android:textColor="?attr/colorPrimary"
                             android:textSize="16sp" />
 
                     </FrameLayout>
