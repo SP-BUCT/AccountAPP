@@ -65,6 +65,9 @@
         <activity android:name=".Activity_barchart"
             android:screenOrientation="portrait"
             />
+        <activity android:name=".Activity_creditedit"
+            android:screenOrientation="portrait"
+            />
     </application>
 
 </manifest>
