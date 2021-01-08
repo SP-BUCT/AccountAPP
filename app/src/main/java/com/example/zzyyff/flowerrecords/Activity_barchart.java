@@ -26,7 +26,6 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,29 +37,22 @@ public class Activity_barchart extends AppCompatActivity {
     TextView nullrecord;
     TextView incomeshow;
     TextView costshow;
-    String choose_year = "2021";
-    String choose_month = "1";
+    String choose_year = "2020";
     LinearLayout clicktocost;
     LinearLayout clicktoincome;
-    List<String> property_out = new ArrayList<>();
+    List<String> cMonth = new ArrayList<>();
     List<Float> costList = new ArrayList<>();
-    List<class_tablelist> tablelist = new ArrayList<>();
-    List<Integer> countList = new ArrayList<>();
-    List<Double> percntList = new ArrayList<>();
     ScrollView scrollView;
     TypedValue typedValue = new TypedValue();
 
-    private String[] mMonths = new String[]{
-            "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dec"};
-
-    int COLORFUL[] = new int[]{Color.parseColor("#f6ec66"),
-            Color.parseColor("#f97272"),
-            Color.parseColor("#00818a"),
-            Color.parseColor("#97de95"),
-            Color.parseColor("#11cbd7"),
-            Color.parseColor("#5fcc9c"),
-            Color.parseColor("#ffdd93"),
-            Color.parseColor("#ffb6b9")};
+//    int COLORFUL[] = new int[]{Color.parseColor("#f6ec66"),
+//            Color.parseColor("#f97272"),
+//            Color.parseColor("#00818a"),
+//            Color.parseColor("#97de95"),
+//            Color.parseColor("#11cbd7"),
+//            Color.parseColor("#5fcc9c"),
+//            Color.parseColor("#ffdd93"),
+//            Color.parseColor("#ffb6b9")};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,18 +118,15 @@ public class Activity_barchart extends AppCompatActivity {
     }
 
     private void initoutBarChart(String inorout) {
-        DecimalFormat df = new DecimalFormat("#.##");
-        double alloutcome = 0;
         List<BarEntry> yVals = new ArrayList <>(); //y值
         yVals.clear();
-        for (int i = 0; i < property_out.size(); i++) {
-            alloutcome += costList.get(i);
+        for (int i = 0; i < cMonth.size(); i++) {
             yVals.add(new BarEntry(i, costList.get(i)));
         }
 
         BarDataSet barDataSet = new BarDataSet(yVals, "");//创建饼图的一个数据集
         barDataSet.setValueTextSize(11f);
-        barDataSet.setColors(COLORFUL); //设置成丰富多彩的颜色
+        //barDataSet.setColors(COLORFUL); //设置成丰富多彩的颜色
 
         BarData bardata = new BarData(barDataSet);//生成BarData
         outBarchart.setData(bardata);//给BarChart填充数据
@@ -163,7 +152,7 @@ public class Activity_barchart extends AppCompatActivity {
                     return "";
                 }
                 //x轴标签的值
-                String labelValue = property_out.get((int) value % property_out.size());
+                String labelValue = cMonth.get((int) value % cMonth.size());
 //                if (labelValue.length() > 4) {
 //                    labelValue = labelValue.substring(0,4)+"…";
 //                }
@@ -201,55 +190,36 @@ public class Activity_barchart extends AppCompatActivity {
     }
 
     private void selectout(){
-        property_out.clear();
+        cMonth.clear();
         costList.clear();
-        countList.clear();
         float sum_cost = 0;
-        int count = 0;
-        //求各类别数量
-        Cursor cursor = db.rawQuery("select count(*) from record" +
-                        " Where inorout=? and date_year =? and date_month=?" +
-                        " group by property",
-                new String[]{"out", choose_year,
-                        choose_month});
+
+        //求各月总和
+        Cursor cursor = db.rawQuery("select sum(cost) from record" +
+                        " Where inorout=? and date_year =?" +
+                        " group by date_month",
+                new String[]{"out", choose_year});
         if (cursor.moveToFirst()) {
             do {
-                count = cursor.getInt(0);
-                countList.add(count);
-            } while (cursor.moveToNext());
-        }
-        else {
-            countList.add(count);
-        }
-
-        //求各类别总和
-        Cursor cursor1 = db.rawQuery("select sum(cost) from record" +
-                        " Where inorout=? and date_year =? and date_month=?" +
-                        " group by property",
-                new String[]{"out", choose_year,
-                        choose_month});
-        if (cursor1.moveToFirst()) {
-            do {
-                sum_cost = cursor1.getFloat(0);
+                sum_cost = cursor.getFloat(0);
                 costList.add(sum_cost);
-            } while (cursor1.moveToNext());
+            } while (cursor.moveToNext());
         }
         else {
             costList.add(sum_cost);
         }
 
-        //找类别
-        Cursor cursor2 = db.query("record", null,
-                "date_year=? and date_month=? and inorout=?",
-                new String[]{choose_year,
-                        choose_month,"out"},
-                "property", null, null);
-        if (cursor2.moveToFirst()) {
+        //数月份
+        Cursor cursor1 = db.query("record", null,
+                "date_year=? and inorout=?",
+                new String[]{choose_year, "out"},
+                "date_month", null, null);
+        if (cursor1.moveToFirst()) {
             do {
-                property_out.add(cursor2.getString(cursor2.getColumnIndex("property")));
+                cMonth.add(cursor1.getString(cursor1.getColumnIndex("date_month"))+"月");
                 outBarchart.setVisibility(View.VISIBLE);
                 nullrecord.setVisibility(View.INVISIBLE);
-            } while (cursor2.moveToNext());
+            } while (cursor1.moveToNext());
             initoutBarChart("支出");
         }
         else {
@@ -259,51 +229,37 @@ public class Activity_barchart extends AppCompatActivity {
     }
 
     private void selectin(){
-        property_out.clear();
+        cMonth.clear();
         costList.clear();
-        countList.clear();
         float sum_cost = 0;
-        int count = 0;
 
-        //求各类别数量
-        Cursor cursor = db.rawQuery("select count(*) from record" +
-                        " Where inorout=? and date_year =? and date_month=?" +
-                        " group by property",
-                new String[]{"in", choose_year,
-                        choose_month});
+        //求各月总和
+        Cursor cursor = db.rawQuery("select sum(income) from record" +
+                        " Where inorout=? and date_year =?" +
+                        " group by date_month",
+                new String[]{"in", choose_year});
         if (cursor.moveToFirst()) {
             do {
-                count = cursor.getInt(0);
-                countList.add(count);
+                sum_cost = cursor.getFloat(0);
+                costList.add(sum_cost);
             } while (cursor.moveToNext());
         }
-
-        //求各类别总和
-        Cursor cursor1 = db.rawQuery("select sum(income) from record" +
-                        " Where inorout=? and date_year =? and date_month=?" +
-                        " group by property",
-                new String[]{"in", choose_year,
-                        choose_month});
-        if (cursor1.moveToFirst()) {
-            do {
-                sum_cost = cursor1.getFloat(0);
-                costList.add(sum_cost);
-            } while (cursor1.moveToNext());
+        else {
+            costList.add(sum_cost);
         }
 
-        //找类别
-        Cursor cursor2 = db.query("record", null,
-                "date_year=? and date_month=? and inorout=?",
-                new String[]{choose_year,
-                        choose_month,"in"},
-                "property", null, null);
-        if (cursor2.moveToFirst()) {
+        //数月份
+        Cursor cursor1 = db.query("record", null,
+                "date_year=? and inorout=?",
+                new String[]{choose_year,"in"},
+                "date_month", null, null);
+        if (cursor1.moveToFirst()) {
             do {
-                property_out.add(cursor2.getString(cursor2.getColumnIndex("property")));
+                cMonth.add(cursor1.getString(cursor1.getColumnIndex("date_month"))+"月");
                 outBarchart.setVisibility(View.VISIBLE);
                 nullrecord.setVisibility(View.INVISIBLE);
-            } while (cursor2.moveToNext());
-            initoutBarChart("收入");
+            } while (cursor1.moveToNext());
+            initoutBarChart("支出");
         }
         else {
             outBarchart.setVisibility(View.INVISIBLE);
