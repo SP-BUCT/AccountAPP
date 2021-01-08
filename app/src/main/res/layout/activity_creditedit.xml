@@ -64,22 +64,25 @@
             android:maxLines="1">
 
             <EditText
-                android:id="@+id/type"
+                android:id="@+id/edit_type"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:ems="10"
                 android:hint="现金"
                 android:padding="10dp"
-                android:maxLines="1"/>
+                android:maxLines="1"
+                android:focusable="false"
+                />
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:ems="10"
                 android:hint="人民币"
                 android:padding="10dp"
-                android:maxLines="1"/>
+                android:maxLines="1"
+                android:enabled="false"/>
             <EditText
-                android:id="@+id/name"
+                android:id="@+id/edit_name"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:ems="10"
@@ -88,16 +91,16 @@
                 android:padding="10dp"
                 android:maxLines="1"/>
             <EditText
-                android:id="@+id/balance"
+                android:id="@+id/edit_balance"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:ems="10"
                 android:hint="余额"
-                android:selectAllOnFocus="true"
                 android:padding="10dp"
-                android:maxLines="1"/>
+                android:maxLines="1"
+                android:inputType="phone" />
             <EditText
-                android:id="@+id/remark"
+                android:id="@+id/edit_remark"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:ems="10"
