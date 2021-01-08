@@ -26,8 +26,12 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class Activity_barchart extends AppCompatActivity {
     ImageView back;
@@ -37,13 +41,18 @@ public class Activity_barchart extends AppCompatActivity {
     TextView nullrecord;
     TextView incomeshow;
     TextView costshow;
-    String choose_year = "2020";
     LinearLayout clicktocost;
     LinearLayout clicktoincome;
     List<String> cMonth = new ArrayList<>();
     List<Float> costList = new ArrayList<>();
     ScrollView scrollView;
     TypedValue typedValue = new TypedValue();
+    LinearLayout choose_date;
+    TextView label_year;
+    String choose_year;
+    private tools_CustomDatePicker datePicker;
+    private String time;
+    private String date;
 
 //    int COLORFUL[] = new int[]{Color.parseColor("#f6ec66"),
 //            Color.parseColor("#f97272"),
@@ -67,6 +76,19 @@ public class Activity_barchart extends AppCompatActivity {
                 finish();
             }
         });
+
+        label_year = findViewById(R.id.label_year);
+        Calendar calendar = Calendar.getInstance();
+        choose_year = String.valueOf(calendar.get(Calendar.YEAR));
+        label_year.setText(choose_year);
+        choose_date = findViewById(R.id.choose_date);
+        choose_date.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                datePicker.show(date,2);
+            }
+        });
+        initPicker();
 
         outBarchart = findViewById(R.id.mBarChart);
         nullrecord = findViewById(R.id.nullrecord);
@@ -265,6 +287,29 @@ public class Activity_barchart extends AppCompatActivity {
             outBarchart.setVisibility(View.INVISIBLE);
             nullrecord.setVisibility(View.VISIBLE);
         }
+    }
+
+    private void initPicker() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA);
+        time = sdf.format(new Date());
+        date = time.split(" ")[0];
+
+        choose_year = date.substring(0,4);
+        //设置当前显示的年
+        label_year.setText(choose_year);
+
+        datePicker = new tools_CustomDatePicker(this, "请选择日期", new tools_CustomDatePicker.ResultHandler() {
+            @Override
+            public void handle(String time) {
+               choose_year = time.split(" ")[0].substring(0,4);
+               label_year.setText(choose_year);
+               onResume();
+            }
+        }, "2017-01-01 00:00", time);
+        datePicker.showSpecificTime(false); //显示时和分
+        datePicker.setIsLoop(false);
+        datePicker.setDayIsLoop(true);
+        datePicker.setMonIsLoop(true);
     }
 
     @Override
