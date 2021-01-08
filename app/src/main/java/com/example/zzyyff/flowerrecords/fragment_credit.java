@@ -1,5 +1,6 @@
 package com.example.zzyyff.flowerrecords;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -9,7 +10,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
+import java.net.Inet4Address;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +24,8 @@ public class fragment_credit extends Fragment {
     List<class_Credit>credits = new ArrayList();
     com.example.zzyyff.flowerrecords.adapter_credit adapter_credit;
 
+    ImageView add_credit;
+
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         dbHelper = new tools_MyDatabaseHelper(getContext(), "credit.db", null, 1);
@@ -29,6 +34,16 @@ public class fragment_credit extends Fragment {
         rec = view.findViewById(R.id.rec_credit);
         rec.setLayoutManager(new LinearLayoutManager(getContext()));
 
+
+        add_credit = view.findViewById(R.id.add_credit);
+
+        add_credit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(),  Activity_creditedit.class);
+                startActivity(intent);
+            }
+        });
         return view;
     }
     protected void initList()
