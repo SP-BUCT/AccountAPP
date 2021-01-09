@@ -6,6 +6,7 @@ import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.media.effect.EffectFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.net.Inet4Address;
 import java.util.ArrayList;
@@ -38,7 +40,9 @@ public class fragment_credit extends Fragment {
     LinearLayout type_credit;//指账户类别中的信用卡
     LinearLayout type_online;//指账户类别中的网络支付账户
 
-
+    TextView assets;
+    TextView debt;
+    TextView sum;
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -50,9 +54,40 @@ public class fragment_credit extends Fragment {
 
         initClickListener();
         initAlertDialog();
-
+        initSum();
 
         return view;
+    }
+
+    private void initSum(){
+
+        assets = view.findViewById(R.id.assets);
+        debt = view.findViewById(R.id.debt);
+        sum = view.findViewById(R.id.sum);
+        float casset = 0;
+        float cdebt = 0;
+        float csum = 0;
+
+        Cursor cursor = db.query("credit",new String[]{"balance"},null,null,null,null,null);
+        if (cursor.moveToFirst()) {
+            do
+            {
+                float num =cursor.getFloat(cursor.getColumnIndex("balance"));
+                if(num>0){
+                    casset = casset + num;
+                }
+                else {
+                    cdebt= cdebt + num;
+                }
+            }while (cursor.moveToNext());
+            csum = casset + cdebt;
+            assets.setText(String.valueOf(casset));
+            debt.setText(String.valueOf(cdebt));
+            sum.setText(String.valueOf(csum));
+            if(csum<0){
+                sum.setTextColor(0xfff87070);
+            }
+        }
     }
 
 
@@ -145,6 +180,7 @@ public class fragment_credit extends Fragment {
         initList();
         adapter_credit = new adapter_credit(credits, getContext());
         rec.setAdapter(adapter_credit);
+        initSum();
     }
 
 

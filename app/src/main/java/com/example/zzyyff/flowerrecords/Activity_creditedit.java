@@ -12,6 +12,7 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 public class Activity_creditedit extends AppCompatActivity {
     //接受intent数据
@@ -144,18 +145,22 @@ public class Activity_creditedit extends AppCompatActivity {
                         cbalance = balance.getText().toString();
                         cremark = remark.getText().toString();
 
-                        ContentValues values = new ContentValues();
-                        values.put("type",ctype);
-                        values.put("name",cname);
-                        values.put("balance",cbalance);
-                        values.put("remarks",cremark);
+                        if(cname.isEmpty() || cbalance.isEmpty()){
+                            Toast.makeText(Activity_creditedit.this,"请输入完整信息",Toast.LENGTH_SHORT).show();
+                        }else{
+                            ContentValues values = new ContentValues();
+                            values.put("type",ctype);
+                            values.put("name",cname);
+                            values.put("balance",cbalance);
+                            values.put("remarks",cremark);
 
-                        db.insert("credit",null,values);
+                            db.insert("credit",null,values);
 
-                        Intent intent1 = new Intent();
-                        intent1.putExtra("position_return",2);
-                        setResult(RESULT_OK,intent1);
-                        finish();
+                            Intent intent1 = new Intent();
+                            intent1.putExtra("position_return",2);
+                            setResult(RESULT_OK,intent1);
+                            finish();
+                        }
                     }
                 });
                 break;
