@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="20dp"
-    app:cardCornerRadius="10dp"
-    app:cardElevation="8dp"
+    app:cardCornerRadius="15dp"
+    app:cardElevation="15dp"
     >
 
     <TextView
@@ -27,8 +27,8 @@
 
         <ImageView
             android:layout_gravity="center_vertical"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_weight="0"
             android:scaleType="centerCrop"
             android:padding="2.6dp"
@@ -44,7 +44,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="现金"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:textColor="@android:color/black"
                 />
             <TextView
@@ -73,8 +73,8 @@
 
         <ImageView
             android:layout_gravity="center_vertical"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
             android:layout_weight="0"
             android:padding="8.5dp"
             android:scaleType="centerCrop"
@@ -110,13 +110,13 @@
     <LinearLayout
         android:id="@+id/type_credit"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:orientation="horizontal"
         android:layout_margin="10dp">
 
         <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
             android:layout_gravity="center_vertical"
             android:layout_weight="0"
             android:padding="9.2dp"
@@ -133,7 +133,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="信用卡"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:textColor="@android:color/black"
                 />
             <TextView
@@ -153,14 +153,14 @@
     <LinearLayout
         android:id="@+id/type_online"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:orientation="horizontal"
         android:layout_margin="10dp">
 
         <ImageView
             android:layout_gravity="center_vertical"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:layout_weight="0"
             android:scaleType="centerCrop"
             android:padding="3dp"
@@ -176,7 +176,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="网络支付账户"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:textColor="@android:color/black"
                 />
             <TextView

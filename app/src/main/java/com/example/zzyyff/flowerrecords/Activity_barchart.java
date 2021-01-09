@@ -14,9 +14,6 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.formatter.IValueFormatter;
-import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
@@ -33,6 +30,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * 按月统计柱状图账单
+ */
 public class Activity_barchart extends AppCompatActivity {
     ImageView back;
     tools_MyDatabaseHelper dbHelper;
@@ -269,6 +269,11 @@ public class Activity_barchart extends AppCompatActivity {
         else {
             costList.add(sum_cost);
         }
+
+        Cursor cursor6 = db.rawQuery("select sum(income) from record" +
+                        " Where inorout=? and date_year =?" +
+                        " group by date_month",
+                new String[]{"in", choose_year});
 
         //数月份
         Cursor cursor1 = db.query("record", null,

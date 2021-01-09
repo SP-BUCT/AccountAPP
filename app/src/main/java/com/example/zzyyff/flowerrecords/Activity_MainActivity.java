@@ -1,7 +1,9 @@
 package com.example.zzyyff.flowerrecords;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -41,6 +43,8 @@ public class Activity_MainActivity extends AppCompatActivity implements ViewPage
     SQLiteDatabase db2;
     tools_MyDatabaseHelper dbHelper3;
     SQLiteDatabase db3;
+    tools_MyDatabaseHelper dbHelper4;
+    SQLiteDatabase db4;
 
 
     @Override
@@ -57,6 +61,19 @@ public class Activity_MainActivity extends AppCompatActivity implements ViewPage
         db2 = dbHelper2.getWritableDatabase();
         dbHelper3 = new tools_MyDatabaseHelper(Activity_MainActivity.this, "credit.db", null, 1);
         db3 = dbHelper3.getWritableDatabase();
+        dbHelper4 = new tools_MyDatabaseHelper(Activity_MainActivity.this, "mine.db", null, 1);
+        db4 = dbHelper4.getWritableDatabase();
+
+        //添加初始账户
+        Cursor cursor = db4.rawQuery("select * from mine", null);
+        if(cursor.getCount()==0) {
+            ContentValues values = new ContentValues();
+            values.put("name", "QJ-QWG-JHC");
+            values.put("date_signed", "no");
+            values.put("quota", 1);
+            db4.insert("mine",null,values);
+        }
+
         initToolbar();
         initViewpager();
         initNavigationBar();

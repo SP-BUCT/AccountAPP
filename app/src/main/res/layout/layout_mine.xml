@@ -265,7 +265,42 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/quotaAlert"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:minHeight="30dp"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="12dp"
+                    android:adjustViewBounds="false"
+                    android:cropToPadding="false"
+                    app:srcCompat="@drawable/warning" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="0dp"
+                    android:gravity="center_horizontal"
+                    android:text="花钱太多了啊"
+                    android:textColor="#F87070"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
         </LinearLayout>
+
     </android.support.v7.widget.CardView>
 
 </RelativeLayout>
