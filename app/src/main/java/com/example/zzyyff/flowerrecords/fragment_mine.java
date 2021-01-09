@@ -63,7 +63,10 @@ public class fragment_mine extends Fragment implements View.OnClickListener{
                 Intent intent4 = new Intent(getContext(),Activity_About.class);
                 startActivity(intent4);
                 break;
-
+            case R.id.setting://关于
+                Intent intent5 = new Intent(getContext(),Activity_quota.class);
+                startActivity(intent5);
+                break;
         }
     }
 
