@@ -66,12 +66,13 @@ public class adapter_credit extends RecyclerView.Adapter<adapter_credit.ViewHold
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context,Activity_creditedit.class);
+                intent.putExtra("id", card.getId());
                 intent.putExtra("addoredit","edit");
-                intent.putExtra("name",card.getName());
-                intent.putExtra("type",card.getType());
-                intent.putExtra("balance",card.getBalance());
-                intent.putExtra("image_path",card.getImage_path());
-                intent.putExtra("name",card.getRemarks());
+                intent.putExtra("cname",card.getName());
+                intent.putExtra("ctype",card.getType());
+                intent.putExtra("cbalance","￥"+card.getBalance());
+                intent.putExtra("cimage_path",card.getImage_path());
+                intent.putExtra("cremark",card.getRemarks());
                 context.startActivity(intent);
             }
         });

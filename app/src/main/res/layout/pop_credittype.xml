@@ -108,7 +108,7 @@
         android:background="@android:color/darker_gray" />
 
     <LinearLayout
-        android:id="@+id/type_online"
+        android:id="@+id/type_credit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -151,7 +151,7 @@
         android:background="@android:color/darker_gray" />
 
     <LinearLayout
-        android:id="@+id/type_credit"
+        android:id="@+id/type_online"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
