@@ -2,10 +2,14 @@ package com.example.zzyyff.flowerrecords;
 
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +31,7 @@ public class fragment_mine extends Fragment implements View.OnClickListener{
     SharedPreferences sp;
     SharedPreferences.Editor editor;
     TextView daysentence;
-    LinearLayout changeskin,usehelp,feedback,setting;
+    LinearLayout changeskin,usehelp,feedback,setting,quotaAlert;
     private static final String Url = "http://api.testvip.club/index/index/dailySentence";
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -39,12 +43,14 @@ public class fragment_mine extends Fragment implements View.OnClickListener{
         usehelp = view.findViewById(R.id.usehelp);
         feedback = view.findViewById(R.id.feedback);
         setting = view.findViewById(R.id.setting);
+        quotaAlert = view.findViewById(R.id.quotaAlert);
 
         changeskin.setOnClickListener(this);
         usehelp.setOnClickListener(this);
         feedback.setOnClickListener(this);
         setting.setOnClickListener(this);
         sendRequsetWithOkHttp();
+        showQuota();
         return view;
     }
     @Override
@@ -121,4 +127,32 @@ public class fragment_mine extends Fragment implements View.OnClickListener{
                 }
         }
     }
+
+    void showQuota() {
+        tools_MyDatabaseHelper dbHelper_mine = new tools_MyDatabaseHelper(getActivity(), "mine.db", null, 1);
+        SQLiteDatabase db_mine = dbHelper_mine.getWritableDatabase();
+        String date_signed;
+        String jud = "yes";
+        Cursor cursor1 = db_mine.rawQuery("select date_signed from mine" +
+                        " Where name=?",
+                new String[]{"QJ-QWG-JHC"});
+        if(cursor1.moveToFirst()) {
+            date_signed = cursor1.getString(0);
+        } else {
+            date_signed = null;
+        }
+        //Log.e("是否显示额度警告：",date_signed);
+        if(date_signed.equals(jud)) {
+            quotaAlert.setVisibility(View.VISIBLE);
+        } else {
+            quotaAlert.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        showQuota();
+    }
+
 }

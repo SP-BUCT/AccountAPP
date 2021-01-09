@@ -1,5 +1,6 @@
 package com.example.zzyyff.flowerrecords;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v4.app.Fragment;
@@ -7,6 +8,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +43,8 @@ public class fragment_list extends Fragment {
     int dateInput_month;
     tools_MyDatabaseHelper dbHelper;
     SQLiteDatabase db;
+    float outcome;
+    float income;
 
 
     @Override
@@ -129,8 +133,8 @@ public class fragment_list extends Fragment {
             //将每天数据传入对应日期类
 
             int i = 0;
-            double outcome = 0;
-            double income = 0;
+            outcome = 0;
+            income = 0;
             do {
                 outcome += dayList.get(i).getOutcome_day();
                 income += dayList.get(i).getIncome_day();
@@ -147,6 +151,7 @@ public class fragment_list extends Fragment {
             labelout.setText("0");
             labelin.setText("0");
         }
+        checkQuota();
 
     }
     private void initPicker() {
@@ -179,5 +184,29 @@ public class fragment_list extends Fragment {
         datePicker.setMonIsLoop(true);
     }
 
+    //额度提醒显示（单用户）
+    private void checkQuota() {
+        tools_MyDatabaseHelper dbHelper_mine;
+        SQLiteDatabase db_mine;
+        ContentValues values = new ContentValues();
+        float quota;
 
+        dbHelper_mine = new tools_MyDatabaseHelper(getActivity(), "mine.db", null, 1);
+        db_mine = dbHelper_mine.getWritableDatabase();
+        Cursor cursor1 = db_mine.rawQuery("select quota from mine" +
+                        " Where name=?",
+                new String[]{"QJ-QWG-JHC"});
+        if(cursor1.moveToFirst()) {
+            quota = cursor1.getFloat(0);
+        } else {
+            quota = 0;
+        }
+        if(outcome < quota) {
+            values.put("date_signed", "no");
+        } else {
+            values.put("date_signed", "yes");
+        }
+
+        db_mine.update("mine",values,"name=?",new String[]{"QJ-QWG-JHC"});
+    }
 }

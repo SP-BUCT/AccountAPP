@@ -50,7 +50,7 @@ public class Activity_quota extends AppCompatActivity {
         db = dbHelper.getWritableDatabase();
         initData();
 
-        //返回+保存（单用户）
+        //返回+保存（单用户）+提醒设置，二次检查activity.fragment_list.checkQuota()
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
