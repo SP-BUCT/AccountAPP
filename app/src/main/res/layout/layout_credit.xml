@@ -67,7 +67,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp"
                 android:text="￥19898.43"
-                android:textColor="#0AC775"
+                android:textColor="?attr/colorPrimary"
                 android:textSize="35sp"
                 android:textStyle="bold" />
 
