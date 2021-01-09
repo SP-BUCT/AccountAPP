@@ -307,6 +307,7 @@ public class Activity_barchart extends AppCompatActivity {
             }
         }, "2017-01-01 00:00", time);
         datePicker.showSpecificTime(false); //显示时和分
+        datePicker.showMonth((false));
         datePicker.setIsLoop(false);
         datePicker.setDayIsLoop(true);
         datePicker.setMonIsLoop(true);

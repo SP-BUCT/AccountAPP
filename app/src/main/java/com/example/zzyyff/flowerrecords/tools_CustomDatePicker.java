@@ -30,7 +30,8 @@ public class tools_CustomDatePicker {
 
     public enum SCROLL_TYPE {
         HOUR(1),
-        MINUTE(2);
+        MINUTE(2),
+        MONTH(3);
 
         SCROLL_TYPE(int value) {
             this.value = value;
@@ -60,7 +61,7 @@ public class tools_CustomDatePicker {
     private String currentMon, currentDay, currentHour, currentMin; //当前选中的月、日、时、分
     private boolean spanYear, spanMon, spanDay, spanHour, spanMin;
     private Calendar selectedCalender, startCalendar, endCalendar;
-    private TextView tv_title, tv_cancle, tv_select, hour_text, minute_text , day_text;
+    private TextView tv_title, tv_cancle, tv_select, hour_text, minute_text , month_text, day_text;
 
     public tools_CustomDatePicker(Context context, String title, ResultHandler resultHandler, String startDate, String endDate) {
         if (isValidDate(startDate, "yyyy-MM-dd HH:mm") && isValidDate(endDate, "yyyy-MM-dd HH:mm")) {
@@ -114,6 +115,7 @@ public class tools_CustomDatePicker {
         day_text = (TextView) datePickerDialog.findViewById(R.id.day_text);
         hour_text = (TextView) datePickerDialog.findViewById(R.id.hour_text);
         minute_text = (TextView) datePickerDialog.findViewById(R.id.minute_text);
+        month_text = (TextView) datePickerDialog.findViewById(R.id.month_text);
 
         tv_title.setText(title);
         tv_cancle.setOnClickListener(new View.OnClickListener() {
@@ -178,6 +180,14 @@ public class tools_CustomDatePicker {
             } else {
                 for (int i = startMinute; i <= MAX_MINUTE; i++) {
                     minute.add(formatTimeUnit(i));
+                }
+            }
+
+            if ((scrollUnits & SCROLL_TYPE.MONTH.value) != SCROLL_TYPE.MONTH.value) {
+                month.add(formatTimeUnit(startMonth));
+            } else {
+                for (int i = startMonth; i <= MAX_MONTH; i++) {
+                    month.add(formatTimeUnit(i));
                 }
             }
         } else if (spanMon) {
@@ -562,7 +572,20 @@ public class tools_CustomDatePicker {
             }
         }
 
+    }
 
+    public void showMonth(boolean show) {
+        if (canAccess) {
+            if (show) {
+                disScrollUnit();
+                month_pv.setVisibility(View.VISIBLE);
+                month_text.setVisibility(View.VISIBLE);
+            } else {
+                disScrollUnit(SCROLL_TYPE.HOUR, SCROLL_TYPE.MINUTE, SCROLL_TYPE.MONTH);
+                month_pv.setVisibility(View.GONE);
+                month_text.setVisibility(View.GONE);
+            }
+            }
 
     }
 
