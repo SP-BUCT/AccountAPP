@@ -819,7 +819,7 @@ public class fragment_keepaccount extends Fragment implements View.OnClickListen
                 break;
             case R.id.btnClear:
                 sB_MoneyInput.delete(0, sB_MoneyInput.length());
-                moneyShow.setText(String.valueOf(intent.getDoubleExtra("money", 0.00)));
+                moneyShow.setText(sB_MoneyInput);
                 break;
         }
     }

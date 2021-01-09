@@ -541,7 +541,7 @@
                             android:layout_marginTop="8dp"
                             android:layout_weight="6"
                             android:background="@drawable/ic_key_back"
-                            android:text="×"
+                            android:text="⇦"
                             android:textSize="18sp" />
 
                         <Button
