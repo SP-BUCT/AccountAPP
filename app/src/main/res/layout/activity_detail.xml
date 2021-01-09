@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F9F9F9"
-    tools:context=".detail">
+    tools:context="com.example.zzyyff.flowerrecords.Activity_detail">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar3"
@@ -161,7 +161,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="3dp"
                         android:layout_weight="1"
-                        android:text="支付方式"
+                        android:text="账户"
                         android:textColor="@color/colorGry" />
 
                     <TextView

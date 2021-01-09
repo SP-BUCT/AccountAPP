@@ -20,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -44,13 +45,16 @@ public class fragment_keepaccount extends Fragment implements View.OnClickListen
     static tools_MyDatabaseHelper dbHelper_tag;
     static SQLiteDatabase db_tag;
 
+    static tools_MyDatabaseHelper dbHelper_credit;
+    static SQLiteDatabase db_credit;
+
 
     Boolean isNotifycation = false;
 
     private ViewPager mViewPagerGrid;
     private List<View> mViewPagerGridList;
     private List<class_KeepAccountAttribute> mDatas;
-    private List<class_tagitem> remarkDatas;
+    private List<class_credititem> creditlist;
     private int pageSize;
     private int pageCount;
     private boolean pageOut = true;
@@ -120,6 +124,7 @@ public class fragment_keepaccount extends Fragment implements View.OnClickListen
     LinearLayout type_credit;//指账户类别中的信用卡
     LinearLayout type_online;//指账户类别中的网络支付账户
 
+    EditText remarks;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -130,19 +135,24 @@ public class fragment_keepaccount extends Fragment implements View.OnClickListen
         dbHelper = new tools_MyDatabaseHelper(getActivity(), "record.db", null, 1);
         db = dbHelper.getWritableDatabase();
 
-        dbHelper_tag = new tools_MyDatabaseHelper(getActivity(), "tag.db", null, 1);
-        db_tag = dbHelper_tag.getWritableDatabase();
+//        dbHelper_tag = new tools_MyDatabaseHelper(getActivity(), "tag.db", null, 1);
+//        db_tag = dbHelper_tag.getWritableDatabase();
+
+        dbHelper_credit = new tools_MyDatabaseHelper(getContext(), "credit.db", null, 1);
+        db_credit = dbHelper_credit.getWritableDatabase();
 
         sp = getActivity().getSharedPreferences("mine", Context.MODE_PRIVATE);
 
         editor = sp.edit();
 
-        initTaglist();
+//        initTaglist();
 
         findViewById();
 
         initClickListener();
         initAlertDialog();
+
+        initCredits();
 
         btnNum0.setOnClickListener(this);
         btnNum1.setOnClickListener(this);
@@ -175,7 +185,7 @@ public class fragment_keepaccount extends Fragment implements View.OnClickListen
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         remarkRecyclerView.setLayoutManager(linearLayoutManager);
-        keepAccountRemarkShowRvAdapter = new adapter_KeepAccountRemarkShowRv(remarkDatas);
+//        keepAccountRemarkShowRvAdapter = new adapter_KeepAccountRemarkShowRv(remarkDatas);
         remarkRecyclerView.setAdapter(keepAccountRemarkShowRvAdapter);
         buildMenuChoose();
         tvShow.addTextChangedListener(new TextWatcher() {
@@ -194,7 +204,7 @@ public class fragment_keepaccount extends Fragment implements View.OnClickListen
             public void afterTextChanged(Editable arg0) {
                 // TODO Auto-generated method stub
 
-                initRemarkDatas();
+                initCredits();
             }
         });
         return view;
@@ -233,7 +243,7 @@ public class fragment_keepaccount extends Fragment implements View.OnClickListen
         for (int index = 0; index < pageCount; index++) {
             //每个页面都是inflate出一个新实例
             GridView grid = (GridView) inflater.inflate(R.layout.item_keep_account_viewpager, mViewPagerGrid, false);
-            grid.setAdapter(new adapter_KeepAccountGridView(getActivity(), mDatas, index,tvShow,ivShow));
+            grid.setAdapter(new adapter_KeepAccountGridView(getActivity(), mDatas, index, tvShow, ivShow));
             mViewPagerGridList.add(grid);
         }
 
@@ -261,28 +271,30 @@ public class fragment_keepaccount extends Fragment implements View.OnClickListen
             }
         });
     }
-    private void initRemarkDatas(){
-        remarkDatas= new ArrayList<class_tagitem>();
+    private void initCredits(){
+        creditlist = new ArrayList<class_credititem>();
 
-        String tag_now ;
+        String credit_now ;
+//        credits.clear();
 
+        Cursor cursor1 = db_credit.query("credit", null, null, null, null, null, "id");
 
-
-        Cursor cursor1 = db_tag.query("tag",null,"property=?",
-                new String[]{tvShow.getText().toString()},null,null,"id desc");
+//        Cursor cursor1 = db_tag.query("tag",null,"property=?",
+//                new String[]{tvShow.getText().toString()},null,null,"id desc");
         if (cursor1.moveToFirst())
         {
             do{
-                tag_now = cursor1.getString(cursor1.getColumnIndex("tag"));
-                class_tagitem class_tagitem = new class_tagitem(tag_now,false);
-                remarkDatas.add(class_tagitem);
+                credit_now = cursor1.getString(cursor1.getColumnIndex("name"));
+
+                class_credititem class_credititem = new class_credititem(credit_now,false);
+                creditlist.add(class_credititem);
             }while (cursor1.moveToNext());
-            keepAccountRemarkShowRvAdapter = new adapter_KeepAccountRemarkShowRv(remarkDatas);
+            keepAccountRemarkShowRvAdapter = new adapter_KeepAccountRemarkShowRv(creditlist);
             remarkRecyclerView.setAdapter(keepAccountRemarkShowRvAdapter);
         }else {
             //Toast.makeText(KeepAccountActivity.this,"!!",Toast.LENGTH_SHORT).show();
 
-            keepAccountRemarkShowRvAdapter = new adapter_KeepAccountRemarkShowRv(remarkDatas);
+            keepAccountRemarkShowRvAdapter = new adapter_KeepAccountRemarkShowRv(creditlist);
             remarkRecyclerView.setAdapter(keepAccountRemarkShowRvAdapter);
 
             //keepAccountRemarkShowRvAdapter.notifyDataSetChanged();
@@ -291,78 +303,79 @@ public class fragment_keepaccount extends Fragment implements View.OnClickListen
 
     }
 
-    private void initRemarkDatas(String tag){
-        remarkDatas= new ArrayList<class_tagitem>();
-        String[] taghave = null;
-        taghave = tag.split("/");
-        String tag_now ;
-        if(taghave.length<=1){
-            Cursor cursor2 = db_tag.query("tag",null,"property=?",
-                    new String[]{tvShow.getText().toString()},null,null,"id desc");
-            if (cursor2.moveToFirst())
-            {
-                int j=0;
-                do{
-                    class_tagitem class_tagitem = null;
-                    tag_now = cursor2.getString(cursor2.getColumnIndex("tag"));
-                    if(tag_now.equals(tag)){
-                        class_tagitem = new class_tagitem(tag_now,true);
-                    }
-                    else {
-                        class_tagitem = new class_tagitem(tag_now,false);
-                    }
+    private void initCredits(String selected){
+        creditlist = new ArrayList<class_credititem>();
+//        String[] credithave = null;
+//        credithave = credit.split("/");
+        String credit_now ;
+        Cursor cursor2 = db_credit.query("credit", null, null, null, null, null, "id");
 
-                    remarkDatas.add(class_tagitem);
-                }while (cursor2.moveToNext());
-                keepAccountRemarkShowRvAdapter = new adapter_KeepAccountRemarkShowRv(remarkDatas);
-                remarkRecyclerView.setAdapter(keepAccountRemarkShowRvAdapter);
-            }else {
-                //Toast.makeText(KeepAccountActivity.this,"!!",Toast.LENGTH_SHORT).show();
+//            Cursor cursor2 = db_tag.query("tag",null,"property=?",
+//                    new String[]{tvShow.getText().toString()},null,null,"id desc");
+        if (cursor2.moveToFirst())
+        {
+            do{
+                class_credititem class_credititem = null;
+                credit_now = cursor2.getString(cursor2.getColumnIndex("name"));
 
-                keepAccountRemarkShowRvAdapter = new adapter_KeepAccountRemarkShowRv(remarkDatas);
-                remarkRecyclerView.setAdapter(keepAccountRemarkShowRvAdapter);
+                if(credit_now.equals(selected)){
+                    class_credititem = new class_credititem(credit_now,true);
+                }
+                else {
+                    class_credititem = new class_credititem(credit_now,false);
+                }
 
-                //keepAccountRemarkShowRvAdapter.notifyDataSetChanged();
-            }
+                creditlist.add(class_credititem);
+            }while (cursor2.moveToNext());
+            keepAccountRemarkShowRvAdapter = new adapter_KeepAccountRemarkShowRv(creditlist);
+            remarkRecyclerView.setAdapter(keepAccountRemarkShowRvAdapter);
+        }else {
+            //Toast.makeText(KeepAccountActivity.this,"!!",Toast.LENGTH_SHORT).show();
 
+            keepAccountRemarkShowRvAdapter = new adapter_KeepAccountRemarkShowRv(creditlist);
+            remarkRecyclerView.setAdapter(keepAccountRemarkShowRvAdapter);
+
+            //keepAccountRemarkShowRvAdapter.notifyDataSetChanged();
         }
-        else {
-            Cursor cursor1 = db_tag.query("tag",null,"property=?",
-                    new String[]{tvShow.getText().toString()},null,null,"id desc");
-            if (cursor1.moveToFirst())
-            {
-                int j=0;
-                do{
-                    class_tagitem class_tagitem = null;
-                    tag_now = cursor1.getString(cursor1.getColumnIndex("tag"));
 
-                    for(int i = j;i<taghave.length;i++){
-
-                        if(tag_now.equals(taghave[i])){
-                            class_tagitem = new class_tagitem(tag_now,true);
-                            Log.e("DDDDDDDDDDDD", taghave[i]);
-                            j++;
-                            break;
-                        }
-                        else {
-                            class_tagitem = new class_tagitem(tag_now,false);
-                            Log.e("XXXXXXXXXXX", taghave[i]);
-                        }
-                    }
-
-                    remarkDatas.add(class_tagitem);
-                }while (cursor1.moveToNext());
-                keepAccountRemarkShowRvAdapter = new adapter_KeepAccountRemarkShowRv(remarkDatas);
-                remarkRecyclerView.setAdapter(keepAccountRemarkShowRvAdapter);
-            }else {
-                //Toast.makeText(KeepAccountActivity.this,"!!",Toast.LENGTH_SHORT).show();
-
-                keepAccountRemarkShowRvAdapter = new adapter_KeepAccountRemarkShowRv(remarkDatas);
-                remarkRecyclerView.setAdapter(keepAccountRemarkShowRvAdapter);
-
-                //keepAccountRemarkShowRvAdapter.notifyDataSetChanged();
-            }
-        }
+//        else {
+////            Cursor cursor1 = db_tag.query("tag",null,"property=?",
+////                    new String[]{tvShow.getText().toString()},null,null,"id desc");
+//            Cursor cursor1 = db_credit.query("credit", null, null, null, null, null, "id");
+//            if (cursor1.moveToFirst())
+//            {
+//                int j=0;
+//                do{
+//                    class_credititem class_credititem = null;
+//                    credit_now = cursor1.getString(cursor1.getColumnIndex("name"));
+//
+//                    for(int i = j;i<credithave.length;i++){
+//
+//                        if(credit_now.equals(credithave[i])){
+//                            class_credititem = new class_credititem(credit_now,true);
+//                            Log.e("DDDDDDDDDDDD", credithave[i]);
+//                            j++;
+//                            break;
+//                        }
+//                        else {
+//                            class_credititem = new class_credititem(credit_now,false);
+//                            Log.e("XXXXXXXXXXX", credithave[i]);
+//                        }
+//                    }
+//
+//                    remarkDatas.add(class_credititem);
+//                }while (cursor1.moveToNext());
+//                keepAccountRemarkShowRvAdapter = new adapter_KeepAccountRemarkShowRv(remarkDatas);
+//                remarkRecyclerView.setAdapter(keepAccountRemarkShowRvAdapter);
+//            }else {
+//                //Toast.makeText(KeepAccountActivity.this,"!!",Toast.LENGTH_SHORT).show();
+//
+//                keepAccountRemarkShowRvAdapter = new adapter_KeepAccountRemarkShowRv(remarkDatas);
+//                remarkRecyclerView.setAdapter(keepAccountRemarkShowRvAdapter);
+//
+//                //keepAccountRemarkShowRvAdapter.notifyDataSetChanged();
+//            }
+//        }
 
     }
 
@@ -375,7 +388,7 @@ public class fragment_keepaccount extends Fragment implements View.OnClickListen
             mDatas.add(new class_KeepAccountAttribute("娱乐", R.drawable.entertainment));
             mDatas.add(new class_KeepAccountAttribute("学习", R.drawable.study));
             mDatas.add(new class_KeepAccountAttribute("数码", R.drawable.camera));
-            mDatas.add(new class_KeepAccountAttribute("停放", R.drawable.park));
+            mDatas.add(new class_KeepAccountAttribute("停车", R.drawable.park));
             mDatas.add(new class_KeepAccountAttribute("酒店", R.drawable.hotel));
             mDatas.add(new class_KeepAccountAttribute("出差", R.drawable.businesstravel));
             mDatas.add(new class_KeepAccountAttribute("公交", R.drawable.traffic));
@@ -441,7 +454,6 @@ public class fragment_keepaccount extends Fragment implements View.OnClickListen
     }
     private void resetData(){
 
-
         intent = getActivity().getIntent();
         isNotifycation = false;
         if (intent.getStringExtra("addoredit").equals("edit")) {
@@ -486,13 +498,17 @@ public class fragment_keepaccount extends Fragment implements View.OnClickListen
             }
             if (!intent.getStringExtra("remark").equals("")) {
                 // Log.e("SSSSSSSSSSSSSSSSS", intent.getStringExtra("remark"));
-                initRemarkDatas(intent.getStringExtra("remark"));
+                remarks.setText(intent.getStringExtra("remark"));
+//
+                initCredits(intent.getStringExtra("paymethod"));
             } else {
-                initRemarkDatas();
+                remarks.setText("");
+                initCredits();
             }
 
         } else {
-            initRemarkDatas();
+            remarks.setText("");
+            initCredits();
         }
     }
 
@@ -577,7 +593,7 @@ public class fragment_keepaccount extends Fragment implements View.OnClickListen
         mViewPagerGrid = (ViewPager)view.findViewById(R.id.keepAccountViewpage);
         remarkRecyclerView = (RecyclerView)view.findViewById(R.id.rvRemark);
 
-        sB_MoneyInput.append("");
+//        sB_MoneyInput.append("");
         tvIn = (TextView)view.findViewById(R.id.tvIn);
         tvOut = (TextView)view.findViewById(R.id.tvOut);
         moneyShow = (TextView)view.findViewById(R.id.moneyShow);
@@ -598,8 +614,8 @@ public class fragment_keepaccount extends Fragment implements View.OnClickListen
         btnDate = (Button)view.findViewById(R.id.btnDate);
         btnClear = (Button)view.findViewById(R.id.btnClear);
 //        btnSave = (ImageView)view.findViewById(R.id.btnSave);
-//        btnBack = (ImageView)view.findViewById(R.id.btnBack1);
-
+//        btnBack =
+        remarks = (EditText)view.findViewById(R.id.remarks);
     }
     @Override
     public void onClick(View v) {
@@ -700,8 +716,13 @@ public class fragment_keepaccount extends Fragment implements View.OnClickListen
             case R.id.btnOK:
 //            case  R.id.btnSave:
                 if(sB_MoneyInput.length()!=0){
+                    String paymethod = keepAccountRemarkShowRvAdapter.getRemark();
+                    if(paymethod.length() == 0) {
+                        Toast.makeText(getActivity(),"请选择一个账户",Toast.LENGTH_SHORT).show();
+                        break;
+                    }
                     double numberInput = Double.valueOf(sB_MoneyInput.toString());
-                    String reMarkInput = keepAccountRemarkShowRvAdapter.getRemark();
+                    String reMarkInput = remarks.getText().toString();
 //                    String payModeInput = btnPayMode.getText().toString();
                     String dateInput;
                     String dateInput_year;
@@ -745,7 +766,7 @@ public class fragment_keepaccount extends Fragment implements View.OnClickListen
                     values.put("date_day",dateInput_day);
                     //values.put("time","12:20");
                     values.put("property",propertyInput);
-                    values.put("paymethod","现金");
+                    values.put("paymethod",paymethod);
 
                     if(intent.getStringExtra("addoredit").equals("add"))
                     {
@@ -762,7 +783,7 @@ public class fragment_keepaccount extends Fragment implements View.OnClickListen
                     bundle.putString("date",dateInput);
                     bundle.putDouble("money",numberInput);
                     bundle.putString("remark",reMarkInput);
-                    bundle.putString("paymethod","现金");
+                    bundle.putString("paymethod",paymethod);
 //                    setResult(RESULT_OK,intent1);
                     intent1.putExtras(bundle);
 //                    finish();
@@ -808,46 +829,48 @@ public class fragment_keepaccount extends Fragment implements View.OnClickListen
     public void onResume() {
         super.onResume();
         if(intent.getStringExtra("addoredit").equals("edit")) {
-            initRemarkDatas(intent.getStringExtra("remark"));
+            remarks.setText(intent.getStringExtra("remark"));
+            initCredits(intent.getStringExtra("paymethod"));
         }
         else {
-            initRemarkDatas();
+            remarks.setText("");
             sB_MoneyInput.delete(0, sB_MoneyInput.length());
             moneyShow.setText(String.valueOf(intent.getDoubleExtra("money", 0.00)));
+            initCredits();
         }
 
     }
 
 
 
-    void initTaglist(){
-        if(!sp.getString("isinsert","false").equals("true")) {
-            ContentValues values = new ContentValues();
-            String[][]tag = new String[][]
-                    {{"餐饮","晚餐","午餐","早餐"},{"零食","薯片","辣条"},{"购物","衣服","化妆品"},{"娱乐","网吧","KTV"},{"学习","书籍","文具"},
-                            {"数码","手机","相机"},{"停放","兰博基尼","法拉利"},{"酒店","四季","豪生"},{"出差","海南","成都"},{"公交","地铁","公交"},
-                            {"飞机","飞海南","飞南海"},{"旅行","三亚","夏威夷"},{"度假","地中海"},{"健身","跑步"},{"户外","登山","远足"},
-                            {"出租车","滴滴"},{"火车","高铁"},{"轮船","都江堰-成都"},{"剧院","周杰伦演唱会"},
-                            {"工资","月薪"},{"投资","花记"},{"彩票","体彩"},{"红包","妈给的"},{"福利","老板给的"},
-                            {"兼职","洗盘子"},{"利息","中国银行"},{"贷款","房贷"},{"风投","天使轮"},{"变卖","显示器"},
-                            {"其他","随便写点啥"}};
-
-            for(int i=0;i<tag.length;i++)
-            {
-                for(int j=1;j<tag[i].length;j++)
-                {
-                    values.put("tag", tag[i][j]);
-                    values.put("property", tag[i][0]);
-                    db_tag.insert("tag", null, values);
-                }
-            }
-            editor.putString("isinsert","true");
-            editor.commit();
-        }
-
-
-
-    }
+//    void initTaglist(){
+//        if(!sp.getString("isinsert","false").equals("true")) {
+//            ContentValues values = new ContentValues();
+//            String[][]tag = new String[][]
+//                    {{"餐饮","晚餐","午餐","早餐"},{"零食","薯片","辣条"},{"购物","衣服","化妆品"},{"娱乐","网吧","KTV"},{"学习","书籍","文具"},
+//                            {"数码","手机","相机"},{"停放","兰博基尼","法拉利"},{"酒店","四季","豪生"},{"出差","海南","成都"},{"公交","地铁","公交"},
+//                            {"飞机","飞海南","飞南海"},{"旅行","三亚","夏威夷"},{"度假","地中海"},{"健身","跑步"},{"户外","登山","远足"},
+//                            {"出租车","滴滴"},{"火车","高铁"},{"轮船","都江堰-成都"},{"剧院","周杰伦演唱会"},
+//                            {"工资","月薪"},{"投资","花记"},{"彩票","体彩"},{"红包","妈给的"},{"福利","老板给的"},
+//                            {"兼职","洗盘子"},{"利息","中国银行"},{"贷款","房贷"},{"风投","天使轮"},{"变卖","显示器"},
+//                            {"其他","随便写点啥"}};
+//
+//            for(int i=0;i<tag.length;i++)
+//            {
+//                for(int j=1;j<tag[i].length;j++)
+//                {
+//                    values.put("tag", tag[i][j]);
+//                    values.put("property", tag[i][0]);
+//                    db_tag.insert("tag", null, values);
+//                }
+//            }
+//            editor.putString("isinsert","true");
+//            editor.commit();
+//        }
+//
+//
+//
+//    }
 
 
 }
