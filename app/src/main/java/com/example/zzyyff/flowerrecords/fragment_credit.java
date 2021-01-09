@@ -21,12 +21,16 @@ import android.widget.TextView;
 
 import java.net.Inet4Address;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class fragment_credit extends Fragment {
     RecyclerView rec;
     tools_MyDatabaseHelper dbHelper;
     SQLiteDatabase db;
+    tools_MyDatabaseHelper dbHelper2;
+    SQLiteDatabase db2;
+
     View view;
     List<class_Credit>credits = new ArrayList();
     adapter_credit adapter_credit;
@@ -44,10 +48,14 @@ public class fragment_credit extends Fragment {
     TextView debt;
     TextView sum;
 
+    HashMap accredits;
+
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         dbHelper = new tools_MyDatabaseHelper(getContext(), "credit.db", null, 1);
         db = dbHelper.getWritableDatabase();
+        dbHelper2 = new tools_MyDatabaseHelper(getContext(), "record.db", null, 1);
+        db2 = dbHelper2.getWritableDatabase();
         view = inflater.inflate(R.layout.layout_credit, container, false);
         rec = view.findViewById(R.id.rec_credit);
         rec.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -68,6 +76,7 @@ public class fragment_credit extends Fragment {
         float cdebt = 0;
         float csum = 0;
 
+        //净资产结算
         Cursor cursor = db.query("credit",new String[]{"balance"},null,null,null,null,null);
         if (cursor.moveToFirst()) {
             do
@@ -88,6 +97,7 @@ public class fragment_credit extends Fragment {
                 sum.setTextColor(0xfff87070);
             }
         }
+
     }
 
 
@@ -158,19 +168,62 @@ public class fragment_credit extends Fragment {
         type_online = popCreditType.findViewById(R.id.type_online);
     }
 
+//    protected void initList()
+//    {
+//        credits.clear();
+//        accredits = new HashMap();
+//        //结算各账单净收支
+//        Cursor cursor2 = db2.query("record",new String[]{"cost,income"},null,null,"acma,e",null,null);
+//        if (cursor2.moveToFirst()) {
+//            do
+//            {
+//                float accost = 0;
+//                float acincome = 0;
+//                float acsum = 0;
+//                String acname = new String();
+//                acname = cursor2.getString(cursor2.getColumnIndex("account"));
+//                accost = cursor2.getFloat(cursor2.getColumnIndex("cost"));
+//                acincome = cursor2.getFloat(cursor2.getColumnIndex("income"));
+//                acsum = acincome - accost;
+//                accredits.put(acname,acsum);
+//            }while (cursor2.moveToNext());
+//        }
+//
+//        Cursor cursor = db.query("credit", null, null, null, null, null, "id");
+//        if (cursor.moveToFirst()) {
+//            do
+//            {
+//                String acname = new String();
+//                float acsum = 0;
+//                float acbalance = 0;
+//                acname = cursor.getString(cursor.getColumnIndex("name"));
+//                acbalance = cursor.getFloat(cursor.getColumnIndex("balance"));
+//                acsum = (float)accredits.get(acname) + acbalance;
+//
+//                credits.add(new class_Credit(cursor.getInt(cursor.getColumnIndex("id")),
+//                        cursor.getString(cursor.getColumnIndex("name")),
+//                        cursor.getString(cursor.getColumnIndex("type")),
+//                        cursor.getFloat(cursor.getColumnIndex("balance")),
+//                        cursor.getString(cursor.getColumnIndex("image_path"))
+//               ));
+//            }while (cursor.moveToNext());
+//        }
+//    }
+
     protected void initList()
     {
         credits.clear();
+
         Cursor cursor = db.query("credit", null, null, null, null, null, "id");
         if (cursor.moveToFirst()) {
             do
             {
-               credits.add(new class_Credit(cursor.getInt(cursor.getColumnIndex("id")),
+                credits.add(new class_Credit(cursor.getInt(cursor.getColumnIndex("id")),
                         cursor.getString(cursor.getColumnIndex("name")),
                         cursor.getString(cursor.getColumnIndex("type")),
-                       cursor.getFloat(cursor.getColumnIndex("balance")),
+                        cursor.getFloat(cursor.getColumnIndex("balance")),
                         cursor.getString(cursor.getColumnIndex("image_path"))
-               ));
+                ));
             }while (cursor.moveToNext());
         }
     }
