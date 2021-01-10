@@ -95,19 +95,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:ems="10"
-                android:hint="余额"
+                android:hint="余额,信用卡一般为负数"
                 android:padding="10dp"
                 android:maxLines="1"
                 android:inputType="phone" />
-            <EditText
-                android:id="@+id/edit_remark"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:ems="10"
-                android:hint="备注"
-                android:selectAllOnFocus="true"
-                android:padding="10dp"
-                android:maxLines="1"/>
+<!--            <EditText-->
+<!--                android:id="@+id/edit_remark"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="45dp"-->
+<!--                android:ems="10"-->
+<!--                android:hint="备注"-->
+<!--                android:selectAllOnFocus="true"-->
+<!--                android:padding="10dp"-->
+<!--                android:maxLines="1"/>-->
         </LinearLayout>
     </LinearLayout>
 

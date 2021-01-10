@@ -44,13 +44,7 @@
         <activity android:name=".Activity_detail"
             android:screenOrientation="portrait"
             />
-        <activity android:name=".Activity_diaryedit"
-            android:screenOrientation="portrait"
-            />
         <activity android:name=".Activity_usehelp"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name=".Activity_tagEdit"
             android:screenOrientation="portrait"
             />
         <activity android:name=".Activity_StyleChanged"

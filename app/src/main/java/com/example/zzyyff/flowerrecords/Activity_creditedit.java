@@ -66,7 +66,7 @@ public class Activity_creditedit extends AppCompatActivity {
         name = (EditText) findViewById(R.id.edit_name);
         type = (EditText) findViewById(R.id.edit_type);
         balance = (EditText) findViewById(R.id.edit_balance);
-        remark = (EditText) findViewById(R.id.edit_remark);
+//        remark = (EditText) findViewById(R.id.edit_remark);
 
         initAlertDialog();
         initClickListener();
@@ -174,7 +174,7 @@ public class Activity_creditedit extends AppCompatActivity {
 
                 name.setText(cname);
                 balance.setText(cbalance);
-                remark.setText(cremark);
+//                remark.setText(cremark);
 
                 ok.setOnClickListener(new View.OnClickListener() {
                     @Override
