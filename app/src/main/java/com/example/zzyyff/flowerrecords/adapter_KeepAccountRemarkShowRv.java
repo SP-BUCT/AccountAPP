@@ -91,6 +91,7 @@ public class adapter_KeepAccountRemarkShowRv extends RecyclerView.Adapter< adapt
         for(int i=0;i<remarkList.size();i++){
             if(remarkList.get(i).isIsclick()){
                 returnRemark.append(remarkList.get(i).getName());
+                break;
             }else {
                 returnRemark.delete(0, returnRemark.length());
             }

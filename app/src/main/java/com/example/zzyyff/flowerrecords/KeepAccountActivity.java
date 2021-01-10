@@ -193,7 +193,8 @@ public class KeepAccountActivity extends AppCompatActivity implements View.OnCli
             public void afterTextChanged(Editable arg0) {
                 // TODO Auto-generated method stub
 
-                initCredits();            }
+//                initCredits();
+            }
         });
     }
     private void buildMenuChoose(){
@@ -258,37 +259,37 @@ public class KeepAccountActivity extends AppCompatActivity implements View.OnCli
             }
         });
     }
-    private void initCredits(){
-        creditlist = new ArrayList<class_credititem>();
-
-        String credit_now ;
-//        credits.clear();
-
-        Cursor cursor1 = db_credit.query("credit", null, null, null, null, null, "id");
-
-//        Cursor cursor1 = db_tag.query("tag",null,"property=?",
-//                new String[]{tvShow.getText().toString()},null,null,"id desc");
-        if (cursor1.moveToFirst())
-        {
-            do{
-                credit_now = cursor1.getString(cursor1.getColumnIndex("name"));
-
-                class_credititem class_credititem = new class_credititem(credit_now,false);
-                creditlist.add(class_credititem);
-            }while (cursor1.moveToNext());
-            keepAccountRemarkShowRvAdapter = new adapter_KeepAccountRemarkShowRv(creditlist);
-            remarkRecyclerView.setAdapter(keepAccountRemarkShowRvAdapter);
-        }else {
-            //Toast.makeText(KeepAccountActivity.this,"!!",Toast.LENGTH_SHORT).show();
-
-            keepAccountRemarkShowRvAdapter = new adapter_KeepAccountRemarkShowRv(creditlist);
-            remarkRecyclerView.setAdapter(keepAccountRemarkShowRvAdapter);
-
-            //keepAccountRemarkShowRvAdapter.notifyDataSetChanged();
-        }
-
-
-    }
+//    private void initCredits(){
+//        creditlist = new ArrayList<class_credititem>();
+//
+//        String credit_now ;
+////        credits.clear();
+//
+//        Cursor cursor1 = db_credit.query("credit", null, null, null, null, null, "id");
+//
+////        Cursor cursor1 = db_tag.query("tag",null,"property=?",
+////                new String[]{tvShow.getText().toString()},null,null,"id desc");
+//        if (cursor1.moveToFirst())
+//        {
+//            do{
+//                credit_now = cursor1.getString(cursor1.getColumnIndex("name"));
+//
+//                class_credititem class_credititem = new class_credititem(credit_now,false);
+//                creditlist.add(class_credititem);
+//            }while (cursor1.moveToNext());
+//            keepAccountRemarkShowRvAdapter = new adapter_KeepAccountRemarkShowRv(creditlist);
+//            remarkRecyclerView.setAdapter(keepAccountRemarkShowRvAdapter);
+//        }else {
+//            //Toast.makeText(KeepAccountActivity.this,"!!",Toast.LENGTH_SHORT).show();
+//
+//            keepAccountRemarkShowRvAdapter = new adapter_KeepAccountRemarkShowRv(creditlist);
+//            remarkRecyclerView.setAdapter(keepAccountRemarkShowRvAdapter);
+//
+//            //keepAccountRemarkShowRvAdapter.notifyDataSetChanged();
+//        }
+//
+//
+//    }
 
     private void initCredits(String selected){
         creditlist = new ArrayList<class_credititem>();
@@ -491,12 +492,12 @@ public class KeepAccountActivity extends AppCompatActivity implements View.OnCli
                 initCredits(intent.getStringExtra("paymethod"));
             } else {
                 remarks.setText("");
-                initCredits();
+                initCredits(intent.getStringExtra("paymethod"));
             }
 
         } else {
             remarks.setText("");
-            initCredits();
+            initCredits(intent.getStringExtra("paymethod"));
         }
     }
 
@@ -824,7 +825,7 @@ public class KeepAccountActivity extends AppCompatActivity implements View.OnCli
             remarks.setText("");
             sB_MoneyInput.delete(0, sB_MoneyInput.length());
             moneyShow.setText(String.valueOf(intent.getDoubleExtra("money", 0.00)));
-            initCredits();
+            initCredits(intent.getStringExtra("paymethod"));
         }
 
     }
