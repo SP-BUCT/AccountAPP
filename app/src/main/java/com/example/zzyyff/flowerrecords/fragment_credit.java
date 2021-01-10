@@ -50,6 +50,11 @@ public class fragment_credit extends Fragment {
 
     HashMap accredits;
 
+//    账户结算
+    float casset = 0;
+    float cdebt = 0;
+    float csum = 0;
+
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         dbHelper = new tools_MyDatabaseHelper(getContext(), "credit.db", null, 1);
@@ -59,6 +64,10 @@ public class fragment_credit extends Fragment {
         view = inflater.inflate(R.layout.layout_credit, container, false);
         rec = view.findViewById(R.id.rec_credit);
         rec.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        casset = 0;
+        cdebt = 0;
+        csum = 0;
 
         initClickListener();
         initAlertDialog();
@@ -72,31 +81,36 @@ public class fragment_credit extends Fragment {
         assets = view.findViewById(R.id.assets);
         debt = view.findViewById(R.id.debt);
         sum = view.findViewById(R.id.sum);
-        float casset = 0;
-        float cdebt = 0;
-        float csum = 0;
+
 
         //净资产结算
+
+//        数据库账户原始资产结算
         Cursor cursor = db.query("credit",new String[]{"balance"},null,null,null,null,null);
-        if (cursor.moveToFirst()) {
-            do
-            {
-                float num =cursor.getFloat(cursor.getColumnIndex("balance"));
-                if(num>0){
-                    casset = casset + num;
-                }
-                else {
-                    cdebt= cdebt + num;
-                }
-            }while (cursor.moveToNext());
-            csum = casset + cdebt;
-            assets.setText(String.valueOf(casset));
-            debt.setText(String.valueOf(cdebt));
-            sum.setText(String.valueOf(csum));
-            if(csum<0){
-                sum.setTextColor(0xfff87070);
-            }
+//        if (cursor.moveToFirst()) {
+//            do
+//            {
+//                float num =cursor.getFloat(cursor.getColumnIndex("balance"));
+//                if(num>0){
+//                    casset = casset + num;
+//                }
+//                else {
+//                    cdebt= cdebt + num;
+//                }
+//            }while (cursor.moveToNext());
+//        }
+
+        //        根据各账户净收支动态显示账户资产结算
+
+        csum = casset + cdebt;
+        assets.setText(String.valueOf(casset));
+        debt.setText(String.valueOf(cdebt));
+        sum.setText(String.valueOf(csum));
+        if(csum<0){
+            sum.setTextColor(0xfff87070);
         }
+
+
 
     }
 
@@ -168,65 +182,89 @@ public class fragment_credit extends Fragment {
         type_online = popCreditType.findViewById(R.id.type_online);
     }
 
+//    根据各账户净收支动态显示账户余额
+    protected void initList()
+    {
+        credits.clear();
+        accredits = new HashMap();
+        //结算各账单净收支
+//        select sum(cost),sum(income),paymethod from record group by paymethod
+        Cursor cursor2 = db2.rawQuery("select sum(cost) as accost,sum(income) as acincome,paymethod from record group by paymethod",
+                null);
+
+        float acsum = 0;
+
+        if (cursor2.moveToFirst()) {
+            do
+            {
+                float accost = 0;
+                float acincome = 0;
+                acsum = 0;
+                String acname = new String();
+
+                acname = cursor2.getString(cursor2.getColumnIndex("paymethod"));
+                accost = cursor2.getFloat(cursor2.getColumnIndex("accost"));
+                acincome = cursor2.getFloat(cursor2.getColumnIndex("acincome"));
+                acsum = acincome - accost;
+                accredits.put(acname,acsum);
+            }while (cursor2.moveToNext());
+        }
+
+
+        //显示账户
+        Cursor cursor = db.query("credit", null, null, null, null, null, "id");
+        if (cursor.moveToFirst()) {
+            do
+            {
+                String acname = new String();
+                float acbalance = 0;
+                Object osum = 0;
+                acsum = 0;
+                acname = cursor.getString(cursor.getColumnIndex("name"));
+                acbalance = cursor.getFloat(cursor.getColumnIndex("balance"));
+                osum = accredits.get(""+acname);
+                if(osum == null){
+                    acsum = acbalance;
+                }
+                else{
+                    acsum = (float)osum + acbalance;
+                }
+
+                if(acsum>0){
+                    casset = casset + acsum;
+                }else{
+                    cdebt = cdebt + acsum;
+                }
+
+
+                credits.add(new class_Credit(cursor.getInt(cursor.getColumnIndex("id")),
+                        acname,
+                        cursor.getString(cursor.getColumnIndex("type")),
+                        acsum,
+                        cursor.getString(cursor.getColumnIndex("image_path"))
+               ));
+            }while (cursor.moveToNext());
+        }
+    }
+
+//    显示数据库中账户原始余额
 //    protected void initList()
 //    {
 //        credits.clear();
-//        accredits = new HashMap();
-//        //结算各账单净收支
-//        Cursor cursor2 = db2.query("record",new String[]{"cost,income"},null,null,"acma,e",null,null);
-//        if (cursor2.moveToFirst()) {
-//            do
-//            {
-//                float accost = 0;
-//                float acincome = 0;
-//                float acsum = 0;
-//                String acname = new String();
-//                acname = cursor2.getString(cursor2.getColumnIndex("account"));
-//                accost = cursor2.getFloat(cursor2.getColumnIndex("cost"));
-//                acincome = cursor2.getFloat(cursor2.getColumnIndex("income"));
-//                acsum = acincome - accost;
-//                accredits.put(acname,acsum);
-//            }while (cursor2.moveToNext());
-//        }
 //
 //        Cursor cursor = db.query("credit", null, null, null, null, null, "id");
 //        if (cursor.moveToFirst()) {
 //            do
 //            {
-//                String acname = new String();
-//                float acsum = 0;
-//                float acbalance = 0;
-//                acname = cursor.getString(cursor.getColumnIndex("name"));
-//                acbalance = cursor.getFloat(cursor.getColumnIndex("balance"));
-//                acsum = (float)accredits.get(acname) + acbalance;
-//
 //                credits.add(new class_Credit(cursor.getInt(cursor.getColumnIndex("id")),
 //                        cursor.getString(cursor.getColumnIndex("name")),
 //                        cursor.getString(cursor.getColumnIndex("type")),
 //                        cursor.getFloat(cursor.getColumnIndex("balance")),
 //                        cursor.getString(cursor.getColumnIndex("image_path"))
-//               ));
+//                ));
 //            }while (cursor.moveToNext());
 //        }
 //    }
-
-    protected void initList()
-    {
-        credits.clear();
-
-        Cursor cursor = db.query("credit", null, null, null, null, null, "id");
-        if (cursor.moveToFirst()) {
-            do
-            {
-                credits.add(new class_Credit(cursor.getInt(cursor.getColumnIndex("id")),
-                        cursor.getString(cursor.getColumnIndex("name")),
-                        cursor.getString(cursor.getColumnIndex("type")),
-                        cursor.getFloat(cursor.getColumnIndex("balance")),
-                        cursor.getString(cursor.getColumnIndex("image_path"))
-                ));
-            }while (cursor.moveToNext());
-        }
-    }
 
     public void onResume() {
         super.onResume();

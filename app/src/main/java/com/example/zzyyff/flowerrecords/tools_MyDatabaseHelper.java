@@ -14,7 +14,7 @@ public class tools_MyDatabaseHelper extends SQLiteOpenHelper implements Serializ
             + "property String, "
             + "cost float, "
             + "income float, "
-            + "paymethod String, "    //现金、支付宝
+            + "paymethod String, "        //现金、支付宝
             + "date String, "
             + "time String, "
             + "date_year String, "
