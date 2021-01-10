@@ -61,7 +61,7 @@ public class adapter_credit extends RecyclerView.Adapter<adapter_credit.ViewHold
         holder.credit_name.setText(card.getName());
         holder.credit_type.setText(card.getType());
         holder.credit_balance.setText("￥"+card.getBalance());
-        displayImage(card.getImage_path(),holder.credit_type_pic);
+        displayImage(holder.credit_type_pic,card.getType());
         holder.click_credit_item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -135,10 +135,28 @@ public class adapter_credit extends RecyclerView.Adapter<adapter_credit.ViewHold
         return list.size();
     }
 
-    private void displayImage(String imagePath,ImageView credit_image) {
-        if(imagePath != null) {
-            credit_image.setImageBitmap(getBitmap(imagePath,360,640));
+    private void displayImage(ImageView credit_image, String type) {
+//        if(imagePath != null) {
+//        credit_image.setImageBitmap(getBitmap(imagePath,360,640));
+        switch (type)
+        {
+            case "现金":
+                credit_image.setImageResource(R.drawable.cash);
+                break;
+            case "储蓄卡":
+                credit_image.setImageResource(R.drawable.saving_card);
+                credit_image.setPadding(7,7,7,7);
+                break;
+            case "信用卡":
+                credit_image.setImageResource(R.drawable.credit_card);
+                credit_image.setPadding(7,7,7,7);
+                break;
+            case "网络支付账户":
+                credit_image.setImageResource(R.drawable.wifi);
+                break;
         }
+
+//        }
     }
 
     private void initTypeface(TextView textView) {

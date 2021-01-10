@@ -32,11 +32,6 @@ public class Activity_MainActivity extends AppCompatActivity implements ViewPage
     adapter_MyFragmentPager adapter;
     ArrayList<Fragment> fragments;
     ViewPager myviewpager;
-    //    AlertDialog write;
-//    View popWriteview;
-//    LinearLayout write_cost;
-//    LinearLayout write_diary;
-//    ImageView button_close;
     tools_MyDatabaseHelper dbHelper;
     SQLiteDatabase db;
     tools_MyDatabaseHelper dbHelper2;
@@ -77,8 +72,6 @@ public class Activity_MainActivity extends AppCompatActivity implements ViewPage
         initToolbar();
         initViewpager();
         initNavigationBar();
-//        initWriteDialog();
-//        initClickListener();
 
     }
 
@@ -229,8 +222,6 @@ public class Activity_MainActivity extends AppCompatActivity implements ViewPage
                 myviewpager.setCurrentItem(1);
                 break;
             case 2:
-                //write.show();
-                // propetyAnim(write);
                 myviewpager.setCurrentItem(2);
                 break;
             case 3:
@@ -260,8 +251,6 @@ public class Activity_MainActivity extends AppCompatActivity implements ViewPage
                 myviewpager.setCurrentItem(1);
                 break;
             case 2:
-                //write.show();
-                // propetyAnim(write);
                 myviewpager.setCurrentItem(2);
                 break;
             case 3:

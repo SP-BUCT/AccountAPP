@@ -144,8 +144,7 @@
 
                             <TextView
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="印第安风情/慷慨、财富、豪爽" />
+                                android:layout_height="wrap_content" />
                         </LinearLayout>
 
                     </android.support.constraint.ConstraintLayout>
@@ -197,13 +196,12 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="火辣"
+                                android:text="热情"
                                 android:textSize="18sp" />
 
                             <TextView
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="火辣民族风/活跃，燃烧，征服" />
+                                android:layout_height="wrap_content" />
                         </LinearLayout>
 
                     </android.support.constraint.ConstraintLayout>
@@ -260,8 +258,7 @@
 
                             <TextView
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="傲娇仙女风/甜美、温柔、纯真" />
+                                android:layout_height="wrap_content" />
                         </LinearLayout>
 
                     </android.support.constraint.ConstraintLayout>
@@ -318,8 +315,7 @@
 
                             <TextView
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="高贵典雅风/稳定、庄重、高雅" />
+                                android:layout_height="wrap_content" />
                         </LinearLayout>
 
                     </android.support.constraint.ConstraintLayout>
@@ -377,8 +373,7 @@
 
                             <TextView
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="东南亚风情/自然、阳光、希望" />
+                                android:layout_height="wrap_content" />
                         </LinearLayout>
 
                     </android.support.constraint.ConstraintLayout>

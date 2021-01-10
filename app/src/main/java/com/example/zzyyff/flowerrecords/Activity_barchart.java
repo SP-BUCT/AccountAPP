@@ -146,9 +146,8 @@ public class Activity_barchart extends AppCompatActivity {
             yVals.add(new BarEntry(i, costList.get(i)));
         }
 
-        BarDataSet barDataSet = new BarDataSet(yVals, "");//创建饼图的一个数据集
+        BarDataSet barDataSet = new BarDataSet(yVals, "");//创建柱状图的一个数据集
         barDataSet.setValueTextSize(11f);
-        //barDataSet.setColors(COLORFUL); //设置成丰富多彩的颜色
 
         BarData bardata = new BarData(barDataSet);//生成BarData
         outBarchart.setData(bardata);//给BarChart填充数据

@@ -25,9 +25,10 @@
                 android:id="@+id/credit_type_pic"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
+
                 android:layout_weight="0"
                 android:scaleType="centerCrop"
-                app:srcCompat="@drawable/credits"/>
+                app:srcCompat="@drawable/saving_card"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"

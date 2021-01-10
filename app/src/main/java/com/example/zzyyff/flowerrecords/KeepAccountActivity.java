@@ -13,7 +13,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -35,12 +34,9 @@ public class KeepAccountActivity extends AppCompatActivity implements View.OnCli
     static tools_MyDatabaseHelper dbHelper;
     static SQLiteDatabase db;
 
-    static tools_MyDatabaseHelper dbHelper_tag;
-    static SQLiteDatabase db_tag;
 
     static tools_MyDatabaseHelper dbHelper_credit;
     static SQLiteDatabase db_credit;
-
 
     Boolean isNotifycation = false;
 
@@ -62,11 +58,9 @@ public class KeepAccountActivity extends AppCompatActivity implements View.OnCli
     private String time;
     private String date;
 
-    private int payModeCount = 0;
     private int inputNumCount = 9;
 
     private boolean pointhave = false;
-    String[] payMode = new String[]{"现金","支付宝","微信","银行卡","代付","信用卡"};
 
     private ArrayList<View> dots;
 
@@ -91,11 +85,9 @@ public class KeepAccountActivity extends AppCompatActivity implements View.OnCli
     private Button btnDel;
     private Button btnDate;
     private Button btnClear;
-//    private Button btnPayMode;
     private Button btnOk;
     private ImageView btnSave;
     private ImageView btnBack;
-    private ImageView add_creditBtn;
 
 
     StringBuilder sB_MoneyInput = new StringBuilder();
@@ -103,9 +95,6 @@ public class KeepAccountActivity extends AppCompatActivity implements View.OnCli
     SharedPreferences.Editor editor;
 
     private int beforeIndexPage = 0;//记录上一次点的位置
-
-    List<class_Credit>credits = new ArrayList();
-    adapter_credit adapter_credit;
 
     ImageView add_credit;//添加账户，源代码记账用了account,无奈账户只能用credit表示
 
@@ -127,16 +116,11 @@ public class KeepAccountActivity extends AppCompatActivity implements View.OnCli
         dbHelper = new tools_MyDatabaseHelper(KeepAccountActivity.this, "record.db", null, 1);
         db = dbHelper.getWritableDatabase();
 
-//        dbHelper_tag = new tools_MyDatabaseHelper(KeepAccountActivity.this, "tag.db", null, 1);
-//        db_tag = dbHelper_tag.getWritableDatabase();
-
         dbHelper_credit = new tools_MyDatabaseHelper(KeepAccountActivity.this, "credit.db", null, 1);
         db_credit = dbHelper_credit.getWritableDatabase();
 
         sp = getSharedPreferences("mine",MODE_PRIVATE);
         editor = sp.edit();
-
-//        initTaglist();
 
         findViewById();
 
@@ -153,7 +137,6 @@ public class KeepAccountActivity extends AppCompatActivity implements View.OnCli
         btnNum7.setOnClickListener(this);
         btnNum8.setOnClickListener(this);
         btnNum9.setOnClickListener(this);
-//        btnPayMode.setOnClickListener(this);
         btnOk.setOnClickListener(this);
         btnPoint.setOnClickListener(this);
         btnDel.setOnClickListener(this);
@@ -163,7 +146,6 @@ public class KeepAccountActivity extends AppCompatActivity implements View.OnCli
         tvOut.setOnClickListener(this);
         tvIn.setOnClickListener(this);
         btnBack.setOnClickListener(this);
-//        add_creditBtn.setOnClickListener(this);
 
 
         initPicker();
@@ -293,13 +275,10 @@ public class KeepAccountActivity extends AppCompatActivity implements View.OnCli
 
     private void initCredits(String selected){
         creditlist = new ArrayList<class_credititem>();
-//        String[] credithave = null;
-//        credithave = credit.split("/");
+
         String credit_now ;
         Cursor cursor2 = db_credit.query("credit", null, null, null, null, null, "id");
 
-//            Cursor cursor2 = db_tag.query("tag",null,"property=?",
-//                    new String[]{tvShow.getText().toString()},null,null,"id desc");
         if (cursor2.moveToFirst())
         {
             do{
@@ -325,45 +304,6 @@ public class KeepAccountActivity extends AppCompatActivity implements View.OnCli
 
             //keepAccountRemarkShowRvAdapter.notifyDataSetChanged();
         }
-
-//        else {
-////            Cursor cursor1 = db_tag.query("tag",null,"property=?",
-////                    new String[]{tvShow.getText().toString()},null,null,"id desc");
-//            Cursor cursor1 = db_credit.query("credit", null, null, null, null, null, "id");
-//            if (cursor1.moveToFirst())
-//            {
-//                int j=0;
-//                do{
-//                    class_credititem class_credititem = null;
-//                    credit_now = cursor1.getString(cursor1.getColumnIndex("name"));
-//
-//                    for(int i = j;i<credithave.length;i++){
-//
-//                        if(credit_now.equals(credithave[i])){
-//                            class_credititem = new class_credititem(credit_now,true);
-//                            Log.e("DDDDDDDDDDDD", credithave[i]);
-//                            j++;
-//                            break;
-//                        }
-//                        else {
-//                            class_credititem = new class_credititem(credit_now,false);
-//                            Log.e("XXXXXXXXXXX", credithave[i]);
-//                        }
-//                    }
-//
-//                    remarkDatas.add(class_credititem);
-//                }while (cursor1.moveToNext());
-//                keepAccountRemarkShowRvAdapter = new adapter_KeepAccountRemarkShowRv(remarkDatas);
-//                remarkRecyclerView.setAdapter(keepAccountRemarkShowRvAdapter);
-//            }else {
-//                //Toast.makeText(KeepAccountActivity.this,"!!",Toast.LENGTH_SHORT).show();
-//
-//                keepAccountRemarkShowRvAdapter = new adapter_KeepAccountRemarkShowRv(remarkDatas);
-//                remarkRecyclerView.setAdapter(keepAccountRemarkShowRvAdapter);
-//
-//                //keepAccountRemarkShowRvAdapter.notifyDataSetChanged();
-//            }
-//        }
 
     }
 
@@ -467,12 +407,6 @@ public class KeepAccountActivity extends AppCompatActivity implements View.OnCli
                 tvOut.setTextColor(this.getResources().getColor(R.color.color_gold));
             }
 
-//            for (int i = 0; i < payMode.length; i++) {
-//                if (payMode[i].equals(intent.getStringExtra("paymethod"))) {
-//                    payModeCount++;
-////                    btnPayMode.setText(payMode[i]);
-//                }
-//            }
             moneyShow.setText(String.valueOf(intent.getDoubleExtra("money", 0.00)));
             sB_MoneyInput.append(String.valueOf(intent.getDoubleExtra("money", 0.00)));
             for (int i = 0; i < sB_MoneyInput.length(); i++) {
@@ -599,7 +533,6 @@ public class KeepAccountActivity extends AppCompatActivity implements View.OnCli
         btnPoint = (Button)findViewById(R.id.btnPoint);
         btnDel = (Button)findViewById(R.id.btnDel);
         btnClear = (Button)findViewById(R.id.btnClear);
-//        btnPayMode = (Button)findViewById(R.id.btnPayMode);
         btnOk = (Button)findViewById(R.id.btnOK);
         btnDate = (Button)findViewById(R.id.btnDate);
         btnSave = (ImageView)findViewById(R.id.btnSave);
@@ -694,15 +627,6 @@ public class KeepAccountActivity extends AppCompatActivity implements View.OnCli
                 }
                 moneyShow.setText(sB_MoneyInput);
                 break;
-//            case R.id.btnPayMode:
-//                btnPayMode.setText(payMode[payModeCount%6]);
-//                payModeCount++;
-//                break;
-//            case R.id.add_credit:
-//                Intent intent3 = new Intent(this,Activity_tagEdit.class);
-//                intent3.putExtra("property",tvShow.getText().toString());
-//                startActivity(intent3);
-//                break;
             case R.id.btnOK:
             case  R.id.btnSave:
                 if(sB_MoneyInput.length()!=0){
@@ -829,37 +753,5 @@ public class KeepAccountActivity extends AppCompatActivity implements View.OnCli
         }
 
     }
-
-
-
-//    void initTaglist(){
-//        if(!sp.getString("isinsert","false").equals("true")) {
-//            ContentValues values = new ContentValues();
-//            String[][]tag = new String[][]
-//                    {{"餐饮","晚餐","午餐","早餐"},{"零食","薯片","辣条"},{"购物","衣服","化妆品"},{"娱乐","网吧","KTV"},{"学习","书籍","文具"},
-//                            {"数码","手机","相机"},{"停放","兰博基尼","法拉利"},{"酒店","六善","豪生"},{"出差","海南","成都"},{"公交","101路","110路"},
-//                            {"飞机","飞海南","飞南海"},{"旅行","三亚","夏威夷"},{"度假","地中海"},{"健身","跑步"},{"户外","登山","远足"},
-//                            {"出租车","滴滴"},{"火车","高铁"},{"轮船","都江堰-成都"},{"剧院","周杰伦演唱会"},
-//                            {"工资","月薪"},{"投资","花记"},{"彩票","体彩"},{"红包","妈给的"},{"福利","老板给的"},
-//                            {"兼职","洗盘子"},{"利息","中国银行"},{"贷款","房贷"},{"风投","天使轮"},{"变卖","显示器"},
-//                            {"其他","随便写点啥"}};
-//
-//            for(int i=0;i<tag.length;i++)
-//            {
-//                for(int j=1;j<tag[i].length;j++)
-//                {
-//                    values.put("tag", tag[i][j]);
-//                    values.put("property", tag[i][0]);
-//                    db_tag.insert("tag", null, values);
-//                }
-//            }
-//            editor.putString("isinsert","true");
-//            editor.commit();
-//        }
-//
-//
-//
-//    }
-
 
 }

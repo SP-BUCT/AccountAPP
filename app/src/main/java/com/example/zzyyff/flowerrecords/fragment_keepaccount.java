@@ -1,6 +1,5 @@
 package com.example.zzyyff.flowerrecords;
 
-//import android.app.Fragment;
 import android.app.AlertDialog;
 import android.support.v4.app.Fragment;
 import android.content.ContentValues;
@@ -15,7 +14,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,8 +40,6 @@ public class fragment_keepaccount extends Fragment implements View.OnClickListen
     static tools_MyDatabaseHelper dbHelper;
     static SQLiteDatabase db;
 
-    static tools_MyDatabaseHelper dbHelper_tag;
-    static SQLiteDatabase db_tag;
 
     static tools_MyDatabaseHelper dbHelper_credit;
     static SQLiteDatabase db_credit;
@@ -69,11 +65,9 @@ public class fragment_keepaccount extends Fragment implements View.OnClickListen
     private String time;
     private String date;
 
-    private int payModeCount = 0;
     private int inputNumCount = 9;
 
     private boolean pointhave = false;
-    String[] payMode = new String[]{"现金","支付宝","微信","银行卡","代付","信用卡"};
 
     private ArrayList<View> dots;
 
@@ -97,12 +91,8 @@ public class fragment_keepaccount extends Fragment implements View.OnClickListen
     private Button btnPoint;
     private Button btnDel;
     private Button btnDate;
-//    private Button btnPayMode;
     private Button btnClear;
     private Button btnOk;
-    //    private ImageView btnSave;
-//    private ImageView btnBack;
-    private ImageView add_creditBtn;
     private  View view;
 
 
@@ -111,9 +101,6 @@ public class fragment_keepaccount extends Fragment implements View.OnClickListen
     SharedPreferences.Editor editor;
 
     private int beforeIndexPage = 0;//记录上一次点的位置
-
-    List<class_Credit>credits = new ArrayList();
-    adapter_credit adapter_credit;
 
     ImageView add_credit;//添加账户，源代码记账用了account,无奈账户只能用credit表示
 
@@ -128,15 +115,10 @@ public class fragment_keepaccount extends Fragment implements View.OnClickListen
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//        setTheme(Activity_StyleChanged.gettheme((String) SPUtils.get(this,"theme","AppTheme")));
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_keep_account);
+
         view = inflater.inflate(R.layout.layout_keepaccount, container, false);
         dbHelper = new tools_MyDatabaseHelper(getActivity(), "record.db", null, 1);
         db = dbHelper.getWritableDatabase();
-
-//        dbHelper_tag = new tools_MyDatabaseHelper(getActivity(), "tag.db", null, 1);
-//        db_tag = dbHelper_tag.getWritableDatabase();
 
         dbHelper_credit = new tools_MyDatabaseHelper(getContext(), "credit.db", null, 1);
         db_credit = dbHelper_credit.getWritableDatabase();
@@ -144,8 +126,6 @@ public class fragment_keepaccount extends Fragment implements View.OnClickListen
         sp = getActivity().getSharedPreferences("mine", Context.MODE_PRIVATE);
 
         editor = sp.edit();
-
-//        initTaglist();
 
         findViewById();
 
@@ -164,17 +144,13 @@ public class fragment_keepaccount extends Fragment implements View.OnClickListen
         btnNum7.setOnClickListener(this);
         btnNum8.setOnClickListener(this);
         btnNum9.setOnClickListener(this);
-//        btnPayMode.setOnClickListener(this);
         btnOk.setOnClickListener(this);
         btnPoint.setOnClickListener(this);
         btnDel.setOnClickListener(this);
         btnDate.setOnClickListener(this);
         btnClear.setOnClickListener(this);
-//        btnSave.setOnClickListener(this);
         tvOut.setOnClickListener(this);
         tvIn.setOnClickListener(this);
-//        btnBack.setOnClickListener(this);
-//        add_creditBtn.setOnClickListener(this);
 
 
         initPicker();
@@ -185,7 +161,6 @@ public class fragment_keepaccount extends Fragment implements View.OnClickListen
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         remarkRecyclerView.setLayoutManager(linearLayoutManager);
-//        keepAccountRemarkShowRvAdapter = new adapter_KeepAccountRemarkShowRv(remarkDatas);
         remarkRecyclerView.setAdapter(keepAccountRemarkShowRvAdapter);
         buildMenuChoose();
         tvShow.addTextChangedListener(new TextWatcher() {
@@ -275,12 +250,9 @@ public class fragment_keepaccount extends Fragment implements View.OnClickListen
         creditlist = new ArrayList<class_credititem>();
 
         String credit_now ;
-//        credits.clear();
 
         Cursor cursor1 = db_credit.query("credit", null, null, null, null, null, "id");
 
-//        Cursor cursor1 = db_tag.query("tag",null,"property=?",
-//                new String[]{tvShow.getText().toString()},null,null,"id desc");
         if (cursor1.moveToFirst())
         {
             do{
@@ -292,12 +264,10 @@ public class fragment_keepaccount extends Fragment implements View.OnClickListen
             keepAccountRemarkShowRvAdapter = new adapter_KeepAccountRemarkShowRv(creditlist);
             remarkRecyclerView.setAdapter(keepAccountRemarkShowRvAdapter);
         }else {
-            //Toast.makeText(KeepAccountActivity.this,"!!",Toast.LENGTH_SHORT).show();
 
             keepAccountRemarkShowRvAdapter = new adapter_KeepAccountRemarkShowRv(creditlist);
             remarkRecyclerView.setAdapter(keepAccountRemarkShowRvAdapter);
 
-            //keepAccountRemarkShowRvAdapter.notifyDataSetChanged();
         }
 
 
@@ -305,13 +275,10 @@ public class fragment_keepaccount extends Fragment implements View.OnClickListen
 
     private void initCredits(String selected){
         creditlist = new ArrayList<class_credititem>();
-//        String[] credithave = null;
-//        credithave = credit.split("/");
+
         String credit_now ;
         Cursor cursor2 = db_credit.query("credit", null, null, null, null, null, "id");
 
-//            Cursor cursor2 = db_tag.query("tag",null,"property=?",
-//                    new String[]{tvShow.getText().toString()},null,null,"id desc");
         if (cursor2.moveToFirst())
         {
             do{
@@ -330,52 +297,11 @@ public class fragment_keepaccount extends Fragment implements View.OnClickListen
             keepAccountRemarkShowRvAdapter = new adapter_KeepAccountRemarkShowRv(creditlist);
             remarkRecyclerView.setAdapter(keepAccountRemarkShowRvAdapter);
         }else {
-            //Toast.makeText(KeepAccountActivity.this,"!!",Toast.LENGTH_SHORT).show();
 
             keepAccountRemarkShowRvAdapter = new adapter_KeepAccountRemarkShowRv(creditlist);
             remarkRecyclerView.setAdapter(keepAccountRemarkShowRvAdapter);
 
-            //keepAccountRemarkShowRvAdapter.notifyDataSetChanged();
         }
-
-//        else {
-////            Cursor cursor1 = db_tag.query("tag",null,"property=?",
-////                    new String[]{tvShow.getText().toString()},null,null,"id desc");
-//            Cursor cursor1 = db_credit.query("credit", null, null, null, null, null, "id");
-//            if (cursor1.moveToFirst())
-//            {
-//                int j=0;
-//                do{
-//                    class_credititem class_credititem = null;
-//                    credit_now = cursor1.getString(cursor1.getColumnIndex("name"));
-//
-//                    for(int i = j;i<credithave.length;i++){
-//
-//                        if(credit_now.equals(credithave[i])){
-//                            class_credititem = new class_credititem(credit_now,true);
-//                            Log.e("DDDDDDDDDDDD", credithave[i]);
-//                            j++;
-//                            break;
-//                        }
-//                        else {
-//                            class_credititem = new class_credititem(credit_now,false);
-//                            Log.e("XXXXXXXXXXX", credithave[i]);
-//                        }
-//                    }
-//
-//                    remarkDatas.add(class_credititem);
-//                }while (cursor1.moveToNext());
-//                keepAccountRemarkShowRvAdapter = new adapter_KeepAccountRemarkShowRv(remarkDatas);
-//                remarkRecyclerView.setAdapter(keepAccountRemarkShowRvAdapter);
-//            }else {
-//                //Toast.makeText(KeepAccountActivity.this,"!!",Toast.LENGTH_SHORT).show();
-//
-//                keepAccountRemarkShowRvAdapter = new adapter_KeepAccountRemarkShowRv(remarkDatas);
-//                remarkRecyclerView.setAdapter(keepAccountRemarkShowRvAdapter);
-//
-//                //keepAccountRemarkShowRvAdapter.notifyDataSetChanged();
-//            }
-//        }
 
     }
 
@@ -478,12 +404,6 @@ public class fragment_keepaccount extends Fragment implements View.OnClickListen
                 tvOut.setTextColor(this.getResources().getColor(R.color.color_gold));
             }
 
-            for (int i = 0; i < payMode.length; i++) {
-                if (payMode[i].equals(intent.getStringExtra("paymethod"))) {
-                    payModeCount++;
-//                    btnPayMode.setText(payMode[i]);
-                }
-            }
             moneyShow.setText(String.valueOf(intent.getDoubleExtra("money", 0.00)));
             sB_MoneyInput.append(String.valueOf(intent.getDoubleExtra("money", 0.00)));
             for (int i = 0; i < sB_MoneyInput.length(); i++) {
@@ -512,13 +432,6 @@ public class fragment_keepaccount extends Fragment implements View.OnClickListen
         }
     }
 
-//    @Override
-//    protected void onNewIntent(Intent intent) {
-//        super.onNewIntent(intent);
-//        this.setIntent(intent);
-//        isNotifycation = true;
-//
-//    }
 
     private void initClickListener() {
         add_credit = view.findViewById(R.id.add_credit);
@@ -609,12 +522,9 @@ public class fragment_keepaccount extends Fragment implements View.OnClickListen
         btnNum9 = (Button)view.findViewById(R.id.btnNum9);
         btnPoint = (Button)view.findViewById(R.id.btnPoint);
         btnDel = (Button)view.findViewById(R.id.btnDel);
-//        btnPayMode = (Button)view.findViewById(R.id.btnPayMode);
         btnOk = (Button)view.findViewById(R.id.btnOK);
         btnDate = (Button)view.findViewById(R.id.btnDate);
         btnClear = (Button)view.findViewById(R.id.btnClear);
-//        btnSave = (ImageView)view.findViewById(R.id.btnSave);
-//        btnBack =
         remarks = (EditText)view.findViewById(R.id.remarks);
     }
     @Override
@@ -704,15 +614,7 @@ public class fragment_keepaccount extends Fragment implements View.OnClickListen
                 }
                 moneyShow.setText(sB_MoneyInput);
                 break;
-//            case R.id.btnPayMode:
-////                btnPayMode.setText(payMode[payModeCount%6]);
-//                payModeCount++;
-//                break;
-//            case R.id.add_credit:
-//                Intent intent3 = new Intent(getActivity(),Activity_tagEdit.class);
-//                intent3.putExtra("property",tvShow.getText().toString());
-//                startActivity(intent3);
-//                break;
+
             case R.id.btnOK:
 //            case  R.id.btnSave:
                 if(sB_MoneyInput.length()!=0){
@@ -723,7 +625,6 @@ public class fragment_keepaccount extends Fragment implements View.OnClickListen
                     }
                     double numberInput = Double.valueOf(sB_MoneyInput.toString());
                     String reMarkInput = remarks.getText().toString();
-//                    String payModeInput = btnPayMode.getText().toString();
                     String dateInput;
                     String dateInput_year;
                     String dateInput_month;
@@ -784,9 +685,7 @@ public class fragment_keepaccount extends Fragment implements View.OnClickListen
                     bundle.putDouble("money",numberInput);
                     bundle.putString("remark",reMarkInput);
                     bundle.putString("paymethod",paymethod);
-//                    setResult(RESULT_OK,intent1);
                     intent1.putExtras(bundle);
-//                    finish();
                     Activity_MainActivity parentActivity = (Activity_MainActivity)getActivity();
                     parentActivity.addBill();
                     break;
@@ -798,10 +697,6 @@ public class fragment_keepaccount extends Fragment implements View.OnClickListen
                     Toast.makeText(getActivity(),"没有输入",Toast.LENGTH_SHORT).show();
                 }
                 break;
-//            case R.id.btnBack1:
-//
-//                getActivity().finish();
-//                break;
 
             case R.id.btnDate:
                 datePicker.show(date,3);
@@ -840,37 +735,5 @@ public class fragment_keepaccount extends Fragment implements View.OnClickListen
         }
 
     }
-
-
-
-//    void initTaglist(){
-//        if(!sp.getString("isinsert","false").equals("true")) {
-//            ContentValues values = new ContentValues();
-//            String[][]tag = new String[][]
-//                    {{"餐饮","晚餐","午餐","早餐"},{"零食","薯片","辣条"},{"购物","衣服","化妆品"},{"娱乐","网吧","KTV"},{"学习","书籍","文具"},
-//                            {"数码","手机","相机"},{"停放","兰博基尼","法拉利"},{"酒店","四季","豪生"},{"出差","海南","成都"},{"公交","地铁","公交"},
-//                            {"飞机","飞海南","飞南海"},{"旅行","三亚","夏威夷"},{"度假","地中海"},{"健身","跑步"},{"户外","登山","远足"},
-//                            {"出租车","滴滴"},{"火车","高铁"},{"轮船","都江堰-成都"},{"剧院","周杰伦演唱会"},
-//                            {"工资","月薪"},{"投资","花记"},{"彩票","体彩"},{"红包","妈给的"},{"福利","老板给的"},
-//                            {"兼职","洗盘子"},{"利息","中国银行"},{"贷款","房贷"},{"风投","天使轮"},{"变卖","显示器"},
-//                            {"其他","随便写点啥"}};
-//
-//            for(int i=0;i<tag.length;i++)
-//            {
-//                for(int j=1;j<tag[i].length;j++)
-//                {
-//                    values.put("tag", tag[i][j]);
-//                    values.put("property", tag[i][0]);
-//                    db_tag.insert("tag", null, values);
-//                }
-//            }
-//            editor.putString("isinsert","true");
-//            editor.commit();
-//        }
-//
-//
-//
-//    }
-
 
 }

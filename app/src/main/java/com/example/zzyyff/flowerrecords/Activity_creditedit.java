@@ -143,7 +143,7 @@ public class Activity_creditedit extends AppCompatActivity {
 
                         cname = name.getText().toString();
                         cbalance = balance.getText().toString();
-                        cremark = remark.getText().toString();
+//                        cremark = remark.getText().toString();
 
                         if(cname.isEmpty() || cbalance.isEmpty()){
                             Toast.makeText(Activity_creditedit.this,"请输入完整信息",Toast.LENGTH_SHORT).show();

@@ -40,10 +40,10 @@ public class tools_MyDatabaseHelper extends SQLiteOpenHelper implements Serializ
             + "date_signed String," //打卡->用于fragment-mine界面提醒
             + "quota float)"; //限额
 
-    public static final String CREATE_TAG = "create table tag("
-            + "id integer primary key autoincrement, "
-            + "tag String, "
-            + "property String)";
+//    public static final String CREATE_TAG = "create table tag("
+//            + "id integer primary key autoincrement, "
+//            + "tag String, "
+//            + "property String)";
 
 
     public static final String CREATE_CREDIT = "create table credit("
@@ -67,7 +67,7 @@ public class tools_MyDatabaseHelper extends SQLiteOpenHelper implements Serializ
         db.execSQL(CREATE_MANAGER);
         db.execSQL(CREATE_DIARY);
         db.execSQL(CREATE_MINE);
-        db.execSQL(CREATE_TAG);
+//        db.execSQL(CREATE_TAG);
         db.execSQL(CREATE_CREDIT );
     }
     @Override
@@ -75,7 +75,7 @@ public class tools_MyDatabaseHelper extends SQLiteOpenHelper implements Serializ
         db.execSQL("drop table if exists record");
         db.execSQL("drop table if exists diary");
         db.execSQL("drop table if exists mine");
-        db.execSQL("drop table if exists tag");
+//        db.execSQL("drop table if exists tag");
         db.execSQL("drop table if exists credit");
         onCreate(db);
     }

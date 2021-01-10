@@ -92,7 +92,7 @@ public class adapter_tablelist extends RecyclerView.Adapter<adapter_tablelist.Vi
             case"购物":
                 imageProperty.setImageResource(R.drawable.shopping);
                 break;
-            case"停放":
+            case"停车":
                 imageProperty.setImageResource(R.drawable.park);
                 break;
             case"学习":
