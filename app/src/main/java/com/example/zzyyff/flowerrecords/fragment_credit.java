@@ -100,7 +100,7 @@ public class fragment_credit extends Fragment {
 //            }while (cursor.moveToNext());
 //        }
 
-        //        根据各账户净收支动态显示账户资产结算
+        // 根据各账户净收支动态显示账户资产结算
 
         csum = casset + cdebt;
         assets.setText(String.valueOf(casset));
